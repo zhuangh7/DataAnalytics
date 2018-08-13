@@ -7,18 +7,13 @@ using System.Web.Http;
 
 namespace DataAnalytics.Controllers
 {
-    public class ValuesController : ApiController
+    public class DataController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public string Get(string symbols,string from,string to,string split)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
+            var symbolsList = symbols.Split(' ');
+            return symbols+" "+ symbolsList.Length;
         }
 
         // POST api/values
