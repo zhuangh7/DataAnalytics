@@ -9,26 +9,19 @@ namespace DataAnalytics.Controllers
 {
     public class DataController : ApiController
     {
-        // GET api/values
+        // GET api/data
         public string Get(string symbols,string from,string to,string split)
         {
+            //get data
             var symbolsList = symbols.Split(' ');
             return symbols+" "+ symbolsList.Length;
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
+        // GET api/data
+        public string Get()
         {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            //get symbols
+            return "";
         }
     }
 }

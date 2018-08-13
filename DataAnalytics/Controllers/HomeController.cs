@@ -10,9 +10,38 @@ namespace DataAnalytics.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
+            if ((string)Session["login"] == "login")
+            {
+                return View("portfolio");
+            }
             return View();
+        }
+        
+        [HttpGet]
+        public ViewResult SignUp()
+        {
+            return View();
+        }
+        [HttpPost]
+        public string SignUp(string username,string password)
+        {
+            return "get";
+        }
+
+        [HttpGet]
+        public ViewResult Portfolio()
+        {
+            return View();
+        }
+
+        public string Summary()
+        {
+            return "summary";
+        }
+
+        public string Chart()
+        {
+            return "chart";
         }
     }
 }
