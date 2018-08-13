@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "signin";
+    if (ViewBag.errmsg != null) {
+        <script>
+            alert("@ViewBag.errmsg");
+        </script>
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+<form action="#" method="post">
+    First name: <input type="text" name="username" />
+    Last name: <input type="text" name="password" />
+    <input type="submit" value="Submit" />
+</form>
+
+<input type="button" onclick="location.href='/home/signup';" value="SignUp" />
