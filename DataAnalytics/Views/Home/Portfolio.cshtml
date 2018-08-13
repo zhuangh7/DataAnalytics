@@ -1,7 +1,43 @@
 ﻿
 @{
     ViewBag.Title = "Portfolio";
+    if(ViewBag.username == null && ViewBag.password == null) {
+        <script>
+            alert("please sign in first");
+            location.href = "/";
+        </script>
+    }
 }
 
-<h2>Portfolio</h2>
+<h2>@ViewBag.Title</h2>
+<h4>can get username : @ViewBag.username</h4>
+<h4>can get password : @ViewBag.password</h4>
 
+<script>
+    function test() {
+        var samplePersonObject = {
+            from: "from",
+            to: "to",
+            split: "split",
+            symbols:["symbol_1","symbol_2"]
+        };
+
+        var jsonSerialized = JSON.stringify(samplePersonObject);
+
+        $.ajax({
+            type: "POST",
+            url: "/home/savePortfolio",
+            dataType: "json",
+            contentType: "application/json",
+            data: jsonSerialized,
+            success: function (result) {
+                console.log(result); //log to the console to see whether it worked
+            },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+        });
+        return false;
+    }
+</script>
+<input type="button" onclick="return test()" value="SignUp" />
