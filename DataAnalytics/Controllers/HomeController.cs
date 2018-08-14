@@ -67,7 +67,7 @@ namespace DataAnalytics.Controllers
         [HttpPost]
         public ActionResult savePortfolio(portfolio item) {
             if (Session["username"] != null) {
-                var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)["username"], item);
+                var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)Session["username"], item);
                 return Json(new { msg = result });
             } else {
                 return Json(new { errmsg = "login time out" });
