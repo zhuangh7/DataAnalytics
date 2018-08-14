@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Portfolio";
+    ViewBag.Title = "_Detail";
     if (ViewBag.username == null && ViewBag.password == null)
     {
         <script>
@@ -10,18 +10,25 @@
     }
 }
 
-<h2>@ViewBag.Title</h2>
-<h4>can get username : @ViewBag.username</h4>
-<h4>can get password : @ViewBag.password</h4>
+<h2>_Detail</h2>
 
 <script>
     function test() {
+        var samplePersonObject = {
+            from: "from",
+            to: "to",
+            split: "split",
+            symbols: ["symbol_1", "symbol_2"]
+        };
+
+        var jsonSerialized = JSON.stringify(samplePersonObject);
 
         $.ajax({
             type: "POST",
-            url: "/home/readPortfolio",
+            url: "/home/savePortfolioDetail",
             dataType: "json",
             contentType: "application/json",
+            data: jsonSerialized,
             success: function (result) {
                 console.log(result); //log to the console to see whether it worked
             },
@@ -33,5 +40,6 @@
     }
 </script>
 <input type="button" onclick="return test()" value="ajax" />
-<input type="button" onclick="location.href='/home/summary'" value="summary" />
-<input type="button" onclick="location.href='/home/detail'" value="detail" />
+
+<h4>can get username : @ViewBag.username</h4>
+<h4>can get password : @ViewBag.password</h4>
