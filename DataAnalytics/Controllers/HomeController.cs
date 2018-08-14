@@ -135,14 +135,26 @@ namespace DataAnalytics.Controllers
             ViewBag.password = Session["password"];
             return View();
         }
+
         [HttpGet]
-        public ActionResult Detail(string[] symbols)
+        public ActionResult Detail(string portfolioName)
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
-            ViewBag.symbols = symbols;
+            portfolio a = PortfolioUtil._getPortFolio(portfolioName);
+            ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View();
+            return View("Detail");
+        }
+
+        [HttpGet]
+        public ActionResult Detail_(string baseSymbol)
+        {
+            portfolio a = PortfolioUtil._getPortFolio(baseSymbol);
+            ViewBag.portfolio = a;
+            ViewBag.username = Session["username"];
+            ViewBag.password = Session["password"];
+            return View("Detail");
         }
     }
 
