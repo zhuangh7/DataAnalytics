@@ -68,7 +68,7 @@ namespace DataAnalytics.Controllers
         public ActionResult savePortfolioDetail(portfolio item) {
             if (Session["username"] != null) {
                 var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)Session["username"], item);
-                return Json(new { msg = result });
+                return Json(new { data = result });
             } else {
                 return Json(new { errmsg = "login time out" });
             }
@@ -80,7 +80,7 @@ namespace DataAnalytics.Controllers
             if (Session["username"] != null)
             {
                 var result = DataAnalytics.Utils.PortfolioUtil._readPortfolioDetail(item);
-                return Json(result);
+                return Json(new { data = result});
             }
             else
             {
