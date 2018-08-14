@@ -19,7 +19,11 @@
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="~/Content/compiled/index.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+
+    <link rel="stylesheet" href="~/Content/compiled/signin.css" type="text/css" media="screen" />
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -85,14 +89,10 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-toggle" href="#">
+                <a href="#">
                     <i class="icon-group"></i>
-                    <span>User</span>
-                    <i class="icon-chevron-down"></i>
+                    <span>Portfolio</span>
                 </a>
-                <ul class="submenu">
-                    <li><a href="Portfolio">User portfolio</a></li>
-                </ul>
             </li>
 
 
@@ -111,9 +111,18 @@
                 <span class="icon"></span><span class="text">Dark skin</span>
             </a>
         </div>
+        <!--set search-->
+        <div class="container-fluid" >
+            <div style="margin: 40px 100px -10px 20px;">
+                <input type="text" placeholder="input a symbol" name="inputSymbol" style="margin-top:10px;" id="input_find" />
+                <input class="btn-glow primary login" style="margin-left:20px" type="button" name="apply" value="apply" />
+                <input class="btn-glow primary login" style="margin-left:20px" type="button" name="detail" value="detail" />
+                <input class="btn-glow primary login" style="margin-left:20px" type="button" value="more information about this symbol" src="https://finance.yahoo.com/" />
+            </div>
+        </div>
 
+        <!--set datatable-->
         <div class="container-fluid">
-
 
 
             <div id="pad-wrapper">
@@ -138,55 +147,9 @@
     <script src="~/Scripts/jquery.flot.resize.js"></script>
     <script src="~/Scripts/theme.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-    <script type="text/javascript">
-        $(function () {
-
-            // jQuery Knobs
-            $(".knob").knob();
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="~/Scripts/summary.js"></script>
 
 
-
-            // jQuery UI Sliders
-            $(".slider-sample1").slider({
-                value: 100,
-                min: 1,
-                max: 500
-            });
-            $(".slider-sample2").slider({
-                range: "min",
-                value: 130,
-                min: 1,
-                max: 500
-            });
-            $(".slider-sample3").slider({
-                range: true,
-                min: 0,
-                max: 500,
-                values: [ 40, 170 ],
-            });
-        });
-
-                    var showProducts = function (products) {
-                        $("#dataa").DataTable({
-                            columns: [{ data: "ProductID" },
-                                        { data: "ProductName" }],
-                            data: products
-                        });
-                    };
-                    var getProducts = function () {
-                        $.ajax({
-                            url: "http://tonycox.net/neueda/NeuedaService.asmx/getproducts",
-                            type: "GET",
-                            dataType: "jsonp",
-                            crossDomain: true,
-                            success: function (response) {
-                                showProducts(response.Results);
-                            }
-                        });
-                    };
-                    getProducts();
-
-    </script>
 
 </body>
