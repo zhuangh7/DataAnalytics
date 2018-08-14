@@ -208,6 +208,7 @@
     <Content Include="Content\compiled\form-wizard.css" />
     <Content Include="Content\compiled\grids.css" />
     <Content Include="Content\compiled\index.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\compiled\personal-info.css" />
     <Content Include="Content\compiled\signin.css" />
     <Content Include="Content\compiled\signup.css" />
@@ -272,7 +273,7 @@
     <Content Include="Content\lib\select2.css" />
     <Content Include="Content\lib\uniform.default.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="font\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
@@ -296,12 +297,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont_2d2816fe.eot" />
-    <Content Include="fonts\fontawesome-webfont_51500cb8.eot" />
-    <Content Include="fonts\fontawesome-webfont_51500cb8.ttf" />
-    <Content Include="fonts\fontawesome-webfont_51500cb8.woff" />
+    <Content Include="font\fontawesome-webfont.svg" />
+    <Content Include="font\fontawesome-webfont.woff" />
+    <Content Include="font\fontawesome-webfont_2d2816fe.eot" />
+    <Content Include="font\fontawesome-webfont_51500cb8.eot" />
+    <Content Include="font\fontawesome-webfont_51500cb8.ttf" />
+    <Content Include="font\fontawesome-webfont_51500cb8.woff" />
     <Content Include="Scripts\bootstrap-wysihtml5-0.0.2.js" />
     <Content Include="Scripts\bootstrap.datepicker.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -309,12 +310,15 @@
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\jquery-latest.js" />
     <Content Include="Scripts\jquery-ui-1.10.2.custom.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.flot.js" />
     <Content Include="Scripts\jquery.flot.resize.js" />
     <Content Include="Scripts\jquery.flot.stack.js" />
     <Content Include="Scripts\jquery.knob.js" />
     <Content Include="Scripts\jquery.uniform.min.js" />
     <Content Include="Scripts\morris.min.js" />
+    <Content Include="Scripts\portfolio.js" />
+    <Content Include="Scripts\portfoliodetail.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\theme.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
@@ -349,19 +353,20 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="font\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="font\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="font\glyphicons-halflings-regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="font\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Views\Home\PortfolioDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

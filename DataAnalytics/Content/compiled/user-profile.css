@@ -118,3 +118,61 @@
     margin: 0; }
   .user-profile .header a.edit {
     margin-right: 10px; } }
+.portfolio_btn{
+	background: none;
+    border: none;
+    color: #008cff;
+    cursor: pointer;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 500;
+    height: 45px;
+    line-height: 45px;
+    outline: none;
+    padding: 0 15px;
+    text-decoration: none;
+    letter-spacing: -.5px;
+	font-family: "Open Sans", Arial;
+}
+.modal-inside-body{
+  padding: 0 25px 25px;
+}
+#model_cancel_btn,#close{
+  background-color: rgba(0,0,0,0);
+      border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    margin-top: -14.5px;
+    margin-right: -14.5px;
+    z-index: 8;
+}
+
+#portfolio_input:before ,#symbol_input:before {
+    display: block;
+    background-image: url(data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0бн 4.905l7.402 7.404a.99.99 0 0 1 0 1.404' fill-rule='evenodd'/%3E%3C/svg%3E);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#portfolio_input,#symbol_input{
+  width:100%;
+}
+.table_row{
+  display:table-row;
+}
+.input-group-btn{
+  position:relative;
+  display:table-cell;
+}
+
+
+.portfolio_btn{
+  float:right;
+}
