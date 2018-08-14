@@ -14,7 +14,7 @@ namespace DataAnalytics.Utils {
             return new { errmsg = "login time out" };
         }
 
-        public static portfolio _getPortfolio(string portfolioName)
+        public static portfolio _getPortfolio(string portfolioId)
         {
             return new portfolio();
         }

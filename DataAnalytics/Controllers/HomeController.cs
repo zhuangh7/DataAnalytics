@@ -136,10 +136,10 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpGet]
-        public ActionResult Detail(string portfolioName)
+        public ActionResult Detail(string portfolioId)
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
-            portfolio a = PortfolioUtil._getPortfolio(portfolioName);
+            portfolio a = PortfolioUtil._getPortfolio(portfolioId);
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
