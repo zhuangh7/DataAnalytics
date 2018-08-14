@@ -1,29 +1,22 @@
 ﻿
 @{
-    ViewBag.Title = "Portfolio";
-    if (@ViewBag.username == null && @ViewBag.password == null)
-    {
-        <script>
-            alert("please sign in first");
-            location.href = "/";
-        </script>
-    }
+    ViewBag.Title = "PortfolioDetail";
 }
-<h4>can get username : @ViewBag.username</h4>
-<h4>can get password : @ViewBag.password</h4>
-
 
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Data Analytics - User @ViewBag.Title</title>
+    <title>Data Analytics - User Portfolio</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- bootstrap -->
     <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
+
     <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
     <link href="~/Content/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
+
 
     <!-- libraries -->
     <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
@@ -32,15 +25,21 @@
     <link rel="stylesheet" type="text/css" href="~/Content/layout.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/elements.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/icons.css" />
-
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
     <!-- this page specific styles -->
     <link rel="stylesheet" href="~/Content/compiled/user-profile.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+
 <body>
 
     <!-- navbar -->
@@ -52,7 +51,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="brand" href="Index">Data Analytics</a>
+            <a class="brand" href="index.html">Data Analytics</a>
 
             <ul class="nav pull-right">
                 <li class="hidden-phone">
@@ -61,17 +60,17 @@
 
 
                 <li class="dropdown">
-                    <a href="Signin" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
+                    <a href="signin.html" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
                         Account...
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="Signin">log in</a></li>
-                        <li><a href="Signin">Log out</a></li>
+                        <li><a href="signin.html">log in</a></li>
+                        <li><a href="signin.html">Log out</a></li>
                     </ul>
                 </li>
                 <li class="settings hidden-phone">
-                    <a href="Signin" role="button">
+                    <a href="signin.html" role="button">
                         Log out
                     </a>
                 </li>
@@ -84,13 +83,13 @@
     <div id="sidebar-nav">
         <ul id="dashboard-menu">
             <li>
-                <a href="Index">
+                <a href="index.html">
                     <i class="icon-home"></i>
                     <span>Summary</span>
                 </a>
             </li>
             <li>
-                <a href="Chart">
+                <a href="chart.html">
                     <i class="icon-signal"></i>
                     <span>Charts</span>
                 </a>
@@ -100,10 +99,14 @@
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
                 </div>
-                <a href="#">
+                <a class="dropdown-toggle" href="#">
                     <i class="icon-group"></i>
-                    <span>Portfolio</span>
+                    <span>Users</span>
+                    <i class="icon-chevron-down"></i>
                 </a>
+                <ul class="submenu">
+                    <li><a href="portfolio.html">User portfolio</a></li>
+                </ul>
             </li>
 
         </ul>
@@ -127,7 +130,7 @@
                 <!-- header -->
                 <div class="row-fluid header">
                     <div class="span8">
-                        <img src="img/contact-profile.png" class="avatar img-circle" />
+                        <img src="~/Content/img/contact-profile.png" class="avatar img-circle" />
                         <h3 class="name">Alejandra Galván Castillo</h3>
                         <span class="area">Graphic Designer</span>
                     </div>
@@ -141,44 +144,33 @@
 
                             <h6>User Portfolio</h6>
                             <br />
+
+
+
+                            <div class="table_row">
+                                <div class="search_bar" style="display:block">
+                                    <input type="text" class="form-control" placeholder="symbol" id="input_find" />
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-search" id="add_btn" style="margin-left: 3px">add symbol</button>
+                                    <button class="btn btn-search save_portfolio_btn" id="save_portfolio" style="margin-left: 3px">save portfolio</button>
+                                </span>
+                            </div>
+
+
+
+
+
                             <!-- recent orders table -->
-                            <table class="table table-hover">
+                            <table border="1" class="display" id="portfolioTable">
                                 <thead>
                                     <tr>
-                                        <th class="span2">
-                                            Order ID
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Date
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Items
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Total amount
-                                        </th>
+                                        <th>Open</th>
+                                        <th>Close</th>
+                                        <th>High</th>
+                                        <th>Low</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- row -->
-                                    <tr class="first">
-                                        <td>
-                                            <div class="portfolio"><a id="portfolio_id1" href="detail?portfolioId=1">portfolio1</a></div>
-                                        </td>
-                                        <td>
-                                            Jan 03, 2014
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td>
-                                            $ 3,500.00
-                                        </td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -189,39 +181,16 @@
         </div>
     </div>
     <!-- end main container -->
-    <!-- scripts -->
-    <script src="~/Scripts/jquery-latest.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+
+    <!-- this page specific scripts -->
+    <script type="text/javascript" src="~/Scripts/portfoliodetail.js"></script>
     <script src="~/Scripts/theme.js"></script>
-    <script>
-        function test() {
-            var samplePersonObject = {
-                from: "from",
-                to: "to",
-                split: "split",
-                symbols: ["symbol_1", "symbol_2"]
-            };
 
-            var jsonSerialized = JSON.stringify(samplePersonObject);
-
-            $.ajax({
-                type: "POST",
-                url: "/home/savePortfolio",
-                dataType: "json",
-                contentType: "application/json",
-                data: jsonSerialized,
-                success: function (result) {
-                    console.log(result); //log to the console to see whether it worked
-                },
-                error: function (error) {
-                    alert("There was an error posting the data to the server: " + error.responseText);
-                }
-            });
-            return false;
-        }
-    </script>
-    <input type="button" onclick="return test()" value="SignUp" />
 </body>
-</html>
 
+</html>
 
