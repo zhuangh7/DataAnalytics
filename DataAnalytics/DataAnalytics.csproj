@@ -257,6 +257,11 @@
     <Content Include="Views\Home\signup.cshtml" />
     <Content Include="Views\Home\Summary.cshtml" />
     <Content Include="Views\Home\Detail.cshtml" />
+    <Content Include="Views\Home\_Chart.cshtml" />
+    <Content Include="Views\Home\_Index.cshtml" />
+    <Content Include="Views\Home\_Portfolio.cshtml" />
+    <Content Include="Views\Home\_Signin.cshtml" />
+    <Content Include="Views\Home\_signup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

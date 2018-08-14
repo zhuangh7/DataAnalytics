@@ -1,0 +1,219 @@
+﻿
+
+<h2>Chart</h2>
+@{
+    ViewBag.Title = "Chart";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Analytics - User Portfolio</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- bootstrap -->
+    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="~/Content/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/elements.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/icons.css" />
+
+    <!-- libraries -->
+    <link href="~/Content/lib/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/lib/morris.css" type="text/css" rel="stylesheet" />
+
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="~/Content/compiled/chart-showcase.css" type="text/css" media="screen" />
+
+    <!--<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="brand" href="index.html">Data Analytics</a>
+
+            <ul class="nav pull-right">
+                <li class="hidden-phone">
+                    <input class="search" type="text" />
+                </li>
+
+
+                <li class="dropdown">
+                    <a href="#" role="button">
+                        Account...
+                    </a>
+                </li>
+                <li class="settings hidden-phone">
+                    <a href="Signin" role="button">
+                        Log out
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- end navbar -->
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        <ul id="dashboard-menu">
+            <li>
+                <a href="Index">
+                    <i class="icon-home"></i>
+                    <span>Summary</span>
+                </a>
+            </li>
+            <li class="active">
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <a href="Chart">
+                    <i class="icon-signal"></i>
+                    <span>Charts</span>
+                </a>
+            </li>
+            <li>
+                I
+                <a class="dropdown-toggle" href="#">
+                    <i class="icon-group"></i>
+                    <span>User</span>
+                    <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="Portfolio">User portfolio</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+    <!-- end sidebar -->
+    <!-- main container -->
+    <div class="content">
+
+        <!-- settings changer -->
+        <div class="skins-nav">
+            <a href="#" class="skin first_nav selected">
+                <span class="icon"></span><span class="text">Default</span>
+            </a>
+            <a href="#" class="skin second_nav" data-file="css/skins/dark.css">
+                <span class="icon"></span><span class="text">Dark skin</span>
+            </a>
+        </div>
+
+        <!-- date picker -->
+        <div class="datePicker">
+            <div class="col-md-4 col-md-offset-2 demo datePickerStart">
+                <label>选择日期：</label>
+                <input type="text" id="singleDate">
+                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择时间段：</label>
+                <input type="text" id="dateRangeStart">
+                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+                <input type="text" id="dateRangeEnd">
+                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+            </div>
+        </div>
+
+        <!-- end main container -->
+        <!-- scripts -->
+        <script src="~/Scripts/jquery-latest.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/theme.js"></script>
+        <!-- call all plugins -->
+        <script src="~/Scripts/theme.js"></script>
+        <!-- 引用 daterangepicker 相关文件-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+        <script type="text/javascript">
+    //daterangePicker
+           var beginTimeTake;
+           var endTimeTake;
+
+            $('#dateRangeStart').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                autoUpdateInput: false,
+                timePicker24Hour : true,
+                timePicker : true,
+                "locale": {
+                    format: 'YYYY-MM-DD HH:mm',
+                    applyLabel: "应用",
+                    cancelLabel: "取消",
+                    resetLabel: "重置",
+                }
+            },
+            function(start, end, label) {
+                beginTimeTake = start;
+                if(!this.startDate){
+                    this.element.val('');
+                }else{
+                    this.element.val(this.startDate.format(this.locale.format));
+                }
+            });
+            $('#dateRangeEnd').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                autoUpdateInput: false,
+                timePicker24Hour : true,
+                timePicker : true,
+                "locale": {
+                    format: 'YYYY-MM-DD HH:mm',
+                    applyLabel: "应用",
+                    cancelLabel: "取消",
+                    resetLabel: "重置",
+                }
+            },
+            function(start, end, label) {
+                endTimeTake = end;
+                if(!this.endDate){
+                    this.element.val('');
+                }else{
+                    this.element.val(this.endDate.format(this.locale.format));
+                }
+            });
+            $('#singleDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                autoUpdateInput: false,
+                timePicker24Hour : true,
+                timePicker : true,
+                "locale": {
+                    format: 'YYYY-MM-DD HH:mm',
+                    applyLabel: "应用",
+                    cancelLabel: "取消",
+                    resetLabel: "重置",
+                }
+            },
+            function(start, end, label) {
+                endTimeTake = end;
+                if(!this.endDate){
+                    this.element.val('');
+                }else{
+                    this.element.val(this.endDate.format(this.locale.format));
+                }
+            });
+        </script>
+
+</body>
+</html>
+
