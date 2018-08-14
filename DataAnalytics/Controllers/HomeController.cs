@@ -143,7 +143,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("Detail");
+            return View("PortfolioDetail");
         }
 
         [HttpGet]
@@ -153,7 +153,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("Detail");
+            return View("PortfolioDetail");
         }
     }
 
