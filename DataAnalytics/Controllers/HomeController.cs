@@ -12,9 +12,9 @@ namespace DataAnalytics.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            if ((string)Session["login"] == "login")
+            if ((string)Session["login"] == "login" && Session["username"]!=null && Session["password"]!=null)
             {
-                return View("portfolio");
+                return RedirectToAction("portfolio");
             }
             return View("signin");
         }
@@ -25,7 +25,7 @@ namespace DataAnalytics.Controllers
                 Console.WriteLine("viewbag.title is no null! is : " + ViewBag.Title);
             }
             if(Utils.UserUtil.userSignIn(username, password)) {
-                Session.Timeout = 1;
+                Session.Timeout = 15;//sign out auto if user dont action in 15 minutes
                 Session["login"] = "login";
                 Session["username"] = username;
                 Session["password"] = password;
@@ -65,7 +65,7 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpPost]
-        public ActionResult savePortfolio(portfolio item) {
+        public ActionResult savePortfolioDetail(portfolio item) {
             if (Session["username"] != null) {
                 var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)Session["username"], item);
                 return Json(new { msg = result });
@@ -75,30 +75,85 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpPost]
+        public ActionResult readPortfolioDetail(portfolio item)
+        {
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.PortfolioUtil._readPortfolioDetail(item);
+                return Json(result);
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
+        }
+
+        [HttpPost]
         public ActionResult readPortfolio() {
             if (Session["username"] != null) {
-                var result = DataAnalytics.Utils.PortfolioUtil._readPortFolio((string)Session["username"]);
+                var result = DataAnalytics.Utils.PortfolioUtil._readPortfolio((string)Session["username"]);
                 return Json(new { data = result });
             } else {
                 return Json(new { errmsg = "login time out" });
             }
         }
 
-        [HttpGet]
-        public string Summary()
+        [HttpPost]
+        public ActionResult readSymbols()
         {
-            //the web page call like this one should judge ViewBag.username to determine if redirect to signin
-            ViewBag.username = Session["username"];
-            ViewBag.password = Session["password"];
-            return "summary";
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.SummaryUtil.readSymbols();
+                return Json(new { data = result });
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
         }
 
-        public string Chart()
+        [HttpPost]
+        public ActionResult readSummary(string summary)
+        {
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.SummaryUtil.readSummary(summary);
+                return Json(new { data = result });
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Summary()
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return "chart";
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Detail(string portfolioId)
+        {
+            //the web page call like this one should judge ViewBag.username to determine if redirect to signin
+            portfolio a = PortfolioUtil._getPortfolio(portfolioId);
+            ViewBag.portfolio = a;
+            ViewBag.username = Session["username"];
+            ViewBag.password = Session["password"];
+            return View("Detail");
+        }
+
+        [HttpGet]
+        public ActionResult Detail_(string baseSymbol)
+        {
+            portfolio a = PortfolioUtil._getDefaultPortfolio(baseSymbol);
+            ViewBag.portfolio = a;
+            ViewBag.username = Session["username"];
+            ViewBag.password = Session["password"];
+            return View("Detail");
         }
     }
 

@@ -1,0 +1,192 @@
+﻿
+<head>
+    <title>Data Analytics - Summary</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- bootstrap -->
+    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
+
+    <!-- libraries -->
+    <link href="~/Content/lib/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="~/Content/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/elements.css" />
+
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="~/Content/compiled/index.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" crossorigin="anonymous" />
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="brand" href="index.html" style="margin-top: 20px;margin-left: 30px; font-size: 40px;">Data Analytics</a>
+
+            <ul class="nav pull-right">
+                <li class="hidden-phone">
+                    <input class="search" type="text" />
+                </li>
+                <li class="notification-dropdown hidden-phone">
+                    <a href="Signin">
+                        Log out
+                    </a>
+
+                </li>
+                <div class="copyrights">From <a href="#" title="Team1">C# Team 1</a></div>
+                <li class="dropdown">
+                    <a href="Signin" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
+                        Account...
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Signin">Log in</a></li>
+                        <li><a href="Signin">Log out</a></li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+    <!-- end navbar -->
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        <ul id="dashboard-menu">
+            <li class="active">
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <a href="Index">
+                    <i class="icon-home"></i>
+                    <span>Summary</span>
+                </a>
+            </li>
+            <li>
+                <a href="Chart">
+                    <i class="icon-signal"></i>
+                    <span>Charts</span>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-toggle" href="#">
+                    <i class="icon-group"></i>
+                    <span>User</span>
+                    <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="Portfolio">User portfolio</a></li>
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+    <!-- end sidebar -->
+    <!-- main container -->
+    <div class="content">
+
+        <!-- settings changer -->
+        <div class="skins-nav">
+            <a href="#" class="skin first_nav selected">
+                <span class="icon"></span><span class="text">Default skin</span>
+            </a>
+            <a href="#" class="skin second_nav" data-file="css/skins/dark.css">
+                <span class="icon"></span><span class="text">Dark skin</span>
+            </a>
+        </div>
+
+        <div class="container-fluid">
+
+
+
+            <div id="pad-wrapper">
+                <table id="dataa"></table>
+                <div><br />From <a href="#" title="team " target="_blank">C# Team 1</a></div>
+            </div>
+            <!-- end table sample -->
+        </div>
+    </div>
+    </div>
+
+
+    <!-- scripts -->
+    <script src="~/Scripts/jquery-latest.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.2.custom.min.js"></script>
+    <!-- knob -->
+    <script src="~/Scripts/jquery.knob.js"></script>
+    <!-- flot charts -->
+    <script src="~/Scripts/jquery.flot.js"></script>
+    <script src="~/Scripts/jquery.flot.stack.js"></script>
+    <script src="~/Scripts/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/theme.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            // jQuery Knobs
+            $(".knob").knob();
+
+
+
+            // jQuery UI Sliders
+            $(".slider-sample1").slider({
+                value: 100,
+                min: 1,
+                max: 500
+            });
+            $(".slider-sample2").slider({
+                range: "min",
+                value: 130,
+                min: 1,
+                max: 500
+            });
+            $(".slider-sample3").slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [ 40, 170 ],
+            });
+        });
+
+                    var showProducts = function (products) {
+                        $("#dataa").DataTable({
+                            columns: [{ data: "ProductID" },
+                                        { data: "ProductName" }],
+                            data: products
+                        });
+                    };
+                    var getProducts = function () {
+                        $.ajax({
+                            url: "http://tonycox.net/neueda/NeuedaService.asmx/getproducts",
+                            type: "GET",
+                            dataType: "jsonp",
+                            crossDomain: true,
+                            success: function (response) {
+                                showProducts(response.Results);
+                            }
+                        });
+                    };
+                    getProducts();
+
+    </script>
+
+</body>

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "_Summary";
+    if (ViewBag.username == null && ViewBag.password == null)
+    {
+        <script>
+            alert("please sign in first");
+            location.href = "/";
+        </script>
+    }
+}
+
+<h2>_Summary</h2>
+
+<h4>can get username : @ViewBag.username</h4>
+<h4>can get password : @ViewBag.password</h4>
+
