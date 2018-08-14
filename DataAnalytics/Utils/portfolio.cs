@@ -5,6 +5,7 @@ using System.Web;
 
 namespace DataAnalytics.Utils {
     public class portfolio {
+        public int portfolioID { get; set; }
         public string portfolioname { get; set; }
         public string[] symbols { get; set; }
         public string from { get; set; }
