@@ -1,0 +1,34 @@
+/* Stats chart */
+.demo {
+                position: relative;
+            }
+            
+.demo i {
+                position: absolute;
+                bottom: 10px;
+                right: 24px;
+                top: auto;
+                cursor: pointer;
+        }
+.demo label{
+    position: relative;
+    display: inline;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.datePicker{
+    margin-top: 40px;
+    margin-left: 50px;
+}
+
+#dateRange{
+  width:300px;
+}
+
+
+
+
+
+
+/*Responsive*/
