@@ -321,6 +321,11 @@
     <Content Include="Scripts\portfoliodetail.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\theme.js" />
+    <Content Include="Scripts\Util\Detail.js" />
+    <Content Include="Scripts\Util\Portfolio.js" />
+    <Content Include="Scripts\Util\SignIn.js" />
+    <Content Include="Scripts\Util\SignUp.js" />
+    <Content Include="Scripts\Util\Summary.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="test.html" />
     <Content Include="Views\chartdemo\HtmlPage1.html" />

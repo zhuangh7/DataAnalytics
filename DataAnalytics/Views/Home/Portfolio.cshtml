@@ -15,7 +15,7 @@
 <h4>can get password : @ViewBag.password</h4>
 
 <script>
-    function test() {
+    function askAllPortfolioObjects() {
 
         $.ajax({
             type: "POST",
@@ -23,7 +23,7 @@
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                console.log(result); //log to the console to see whether it worked
+                console.log(result); //this result will be a signle json object which contain '''errmsg''' or 
             },
             error: function (error) {
                 alert("There was an error posting the data to the server: " + error.responseText);
