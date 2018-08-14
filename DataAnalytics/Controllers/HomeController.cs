@@ -91,7 +91,7 @@ namespace DataAnalytics.Controllers
         [HttpPost]
         public ActionResult readPortfolio() {
             if (Session["username"] != null) {
-                var result = DataAnalytics.Utils.PortfolioUtil._readPortFolio((string)Session["username"]);
+                var result = DataAnalytics.Utils.PortfolioUtil._readPortfolio((string)Session["username"]);
                 return Json(new { data = result });
             } else {
                 return Json(new { errmsg = "login time out" });
@@ -127,10 +127,9 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpGet]
-        public ActionResult Summary(string baseSymbol)
+        public ActionResult Summary()
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
-            ViewBag.baseSymbol = baseSymbol;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
             return View();
@@ -140,7 +139,7 @@ namespace DataAnalytics.Controllers
         public ActionResult Detail(string portfolioName)
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
-            portfolio a = PortfolioUtil._getPortFolio(portfolioName);
+            portfolio a = PortfolioUtil._getPortfolio(portfolioName);
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
@@ -150,7 +149,7 @@ namespace DataAnalytics.Controllers
         [HttpGet]
         public ActionResult Detail_(string baseSymbol)
         {
-            portfolio a = PortfolioUtil._getPortFolio(baseSymbol);
+            portfolio a = PortfolioUtil._getDefaultPortfolio(baseSymbol);
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
