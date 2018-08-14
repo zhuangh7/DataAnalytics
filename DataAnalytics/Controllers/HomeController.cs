@@ -75,6 +75,20 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpPost]
+        public ActionResult readPortfolioDetail(portfolio item)
+        {
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.PortfolioUtil._readPortfolioDetail(item);
+                return Json(result);
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
+        }
+
+        [HttpPost]
         public ActionResult readPortfolio() {
             if (Session["username"] != null) {
                 var result = DataAnalytics.Utils.PortfolioUtil._readPortFolio((string)Session["username"]);
@@ -84,18 +98,48 @@ namespace DataAnalytics.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult readSymbols()
+        {
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.SummaryUtil.readSymbols();
+                return Json(new { data = result });
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult readSummary(string summary)
+        {
+            if (Session["username"] != null)
+            {
+                var result = DataAnalytics.Utils.SummaryUtil.readSummary(summary);
+                return Json(new { data = result });
+            }
+            else
+            {
+                return Json(new { errmsg = "login time out" });
+            }
+        }
+
         [HttpGet]
-        public ActionResult Summary()
+        public ActionResult Summary(string baseSymbol)
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
+            ViewBag.baseSymbol = baseSymbol;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
             return View();
         }
         [HttpGet]
-        public ActionResult Detail()
+        public ActionResult Detail(string[] symbols)
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
+            ViewBag.symbols = symbols;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
             return View();
