@@ -12,9 +12,9 @@ namespace DataAnalytics.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            if ((string)Session["login"] == "login")
+            if ((string)Session["login"] == "login" && Session["username"]!=null && Session["password"]!=null)
             {
-                return View("portfolio");
+                return RedirectToAction("portfolio");
             }
             return View("signin");
         }
@@ -25,7 +25,7 @@ namespace DataAnalytics.Controllers
                 Console.WriteLine("viewbag.title is no null! is : " + ViewBag.Title);
             }
             if(Utils.UserUtil.userSignIn(username, password)) {
-                Session.Timeout = 1;
+                Session.Timeout = 15;//sign out auto if user dont action in 15 minutes
                 Session["login"] = "login";
                 Session["username"] = username;
                 Session["password"] = password;
@@ -65,9 +65,9 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpPost]
-        public ActionResult savePortfolio(portfolio item) {
+        public ActionResult savePortfolioDetail(portfolio item) {
             if (Session["username"] != null) {
-                var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)["username"], item);
+                var result = DataAnalytics.Utils.PortfolioUtil._savePortfolio((string)Session["username"], item);
                 return Json(new { msg = result });
             } else {
                 return Json(new { errmsg = "login time out" });
@@ -85,20 +85,20 @@ namespace DataAnalytics.Controllers
         }
 
         [HttpGet]
-        public string Summary()
+        public ActionResult Summary()
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return "summary";
+            return View();
         }
-
-        public string Chart()
+        [HttpGet]
+        public ActionResult Detail()
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return "chart";
+            return View();
         }
     }
 
