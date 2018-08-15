@@ -1,10 +1,29 @@
-﻿@{
-    ViewBag.Title = "PortfolioDetail";
-}
+﻿
 
 <!DOCTYPE html>
 <html>
 <head>
+
+    @{
+        <script>
+        var cp = {
+         from :"@ViewBag.portfolio.from",
+         to :"@ViewBag.portfolio.to",
+        split : "@ViewBag.portfolio.split",
+        symbols : []
+       }
+        </script>
+
+        foreach (var symbols in ViewBag.portfolio.symbols)
+        {
+            <script>
+            cp.symbols.push("@symbols");
+            </script>
+        }
+        <script>
+            window.currentPortfolio = cp;
+        </script>
+    }
     <title>Data Analytics - User Portfolio</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,7 +53,7 @@
 
     <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    
+
 
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
@@ -61,9 +80,6 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script>
-        window.currentPortfolio = @ViewBag.portfolio;
-    </script>
 </head>
 
 <body>
@@ -124,8 +140,8 @@
                     <span>Details</span>
                 </a>
             </li>
-            <li >
-                
+            <li>
+
                 <a href="#">
                     <i class="icon-group"></i>
                     <span>Portfolio</span>
@@ -196,35 +212,34 @@
                             <div id="echart" style="height: 100%"></div>
 
                             <!-- recent orders table -->
-                            <table data-toggle="table" data-pagination="true" data-search="true" id="symbols_table">
-                            </table>
+                            <table data-toggle="table" data-pagination="true" data-search="true" id="symbols_table"></table>
+
+                        </div>
+
 
                     </div>
-
-
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end main container -->
-    <!-- Modal for save portfolio name-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Please Input Portfolio Name</h4>
-                </div>
-                <div class="modal-body">
-                    <input class="portfolio_input" type="text" placeholder="portfolio name">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="portfolio_name_save">Save Portfolio</button>
+        <!-- end main container -->
+        <!-- Modal for save portfolio name-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Please Input Portfolio Name</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input class="portfolio_input" type="text" placeholder="portfolio name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="portfolio_name_save">Save Portfolio</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script type="text/javascript" src="~/Scripts/Util/Detail.js"></script>
+        <script type="text/javascript" src="~/Scripts/Util/Detail.js"></script>
 </body>
