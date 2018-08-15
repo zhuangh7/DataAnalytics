@@ -304,6 +304,9 @@
     <Content Include="font\fontawesome-webfont_51500cb8.eot" />
     <Content Include="font\fontawesome-webfont_51500cb8.ttf" />
     <Content Include="font\fontawesome-webfont_51500cb8.woff" />
+    <Content Include="images\sort_asc.png" />
+    <Content Include="images\sort_both.png" />
+    <Content Include="images\sort_desc.png" />
     <Content Include="Scripts\bootstrap-wysihtml5-0.0.2.js" />
     <Content Include="Scripts\bootstrap.datepicker.js" />
     <Content Include="Scripts\bootstrap.min.js" />

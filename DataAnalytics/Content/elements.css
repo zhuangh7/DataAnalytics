@@ -651,3 +651,18 @@
 
 
 
+/*设置表格奇偶数行背景色不同*/
+ #portfolios_table{
+     border:1px;
+ }
+ #portfolios_table tbody tr:nth-child(even){
+    background: white;
+}
+ #portfolios_table tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+}
+
+
+
+
+

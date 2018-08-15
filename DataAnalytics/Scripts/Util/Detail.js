@@ -34,7 +34,16 @@ $(document).ready(function () {
 });
 function refreshDataTable() {
     $('#symbols_table').bootstrapTable({
-        columns: [{
+        sortable: true,
+        striped: true,                      //是否显示行间隔色
+        sortOrder: "asc",                   //排序方式
+        search: true,
+        columns: [
+            {
+                checkbox: true,  
+                visible: true                  //是否显示复选框  
+            },
+            {
             field: 'symbol',
             title: 'Symbol Name'
         }, {
