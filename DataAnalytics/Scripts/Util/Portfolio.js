@@ -10,7 +10,31 @@
 /*
  * judge if sign in 
  */
+var portfolioList = [];
 
+$(document).ready(
+    askAllPortfolioObjects()
+);
+
+function refreshDataTable() {
+    $('#portfolios_table').bootstrapTable({
+        columns: [{
+            field: 'portfolioID',
+            title: 'id'
+        }, {
+            field: 'portfolioname',
+            title: 'portfolioname'
+        }, {
+            field: 'from',
+            title: 'Start Time'
+        }, {
+            field: 'to',
+            title: 'End Time'
+        }
+        ],
+        data: portfolioList
+    });
+}
 function askAllPortfolioObjects() {
     //call this function will page load
     $.ajax({
@@ -24,6 +48,15 @@ function askAllPortfolioObjects() {
                 alert('readDataError');
             } else {
                 //put the data into datatable or store it in an global var I think.
+                //show
+                portfolioList.push({
+                    portfolioname: result.data.portfolioname,
+                    from: result.data.from,
+                    to: result.data.to,
+                    portfolioID:result.data.portfolioID
+                    });
+
+                refreshDataTable();
             }
         },
         error: function (error) {
@@ -32,6 +65,7 @@ function askAllPortfolioObjects() {
     });
     return false;
 }
+
 
 function goSummary() {
     location.href = '/home/summary'
@@ -45,15 +79,9 @@ function goDetail(portfolioId) {
     location.href = '/home/detail?portfolioId=' + portfolioId;
 }
 
-$(".model_cancel_btn").click(
-    function () {
-        $(".modal").modal("hide");
-    }
-);
 
-$(document).ready(
-    ShowPortFolio()
-);
+
+
 
 function ShowPortFolio() {
     $.ajax({

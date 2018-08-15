@@ -50,15 +50,7 @@ function refreshDataTable() {
             title: 'Low Price'
         }
         ],
-        data: [
-            {
-                symbol: 'a',
-                open: 12.3,
-                close: 12.2,
-                high: 18,
-                low:9
-            }
-        ]
+        data: summaryList
     });
 }
 function readSummary(symbol) {
