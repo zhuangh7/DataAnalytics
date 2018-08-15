@@ -14,7 +14,8 @@
 
 $(function () {
     var symbolNum = 0;
-    var availableTags = [
+    //var symbols = readSymbols();
+    var symbols = [
         "ActionScript",
         "AppleScript",
         "Asp",
@@ -41,7 +42,7 @@ $(function () {
     ];
     $("#input_find").autocomplete({
         source: function (request, response) {
-            var results = $.ui.autocomplete.filter(availableTags, request.term);
+            var results = $.ui.autocomplete.filter(symbols, request.term);
             response(results.slice(0, 10));
             //console.log(results);
             symbolNum = results.length;
@@ -56,18 +57,18 @@ $(function () {
             data: products
         });
     };
-    var getProducts = function () {
-        $.ajax({
-            url: "http://tonycox.net/neueda/NeuedaService.asmx/getproducts",
-            type: "GET",
-            dataType: "jsonp",
-            crossDomain: true,
-            success: function (response) {
-                showProducts(response.Results);
-            }
-        });
-    };
-    getProducts();
+    //var getProducts = function () {
+    //    $.ajax({
+    //        url: "http://tonycox.net/neueda/NeuedaService.asmx/getproducts",
+    //        type: "GET",
+    //        dataType: "jsonp",
+    //        crossDomain: true,
+    //        success: function (response) {
+    //            showProducts(response.Results);
+    //        }
+    //    });
+    //};
+    //getProducts();
 
     $("input[name='apply']").click(function () {
         var inputSymbol = $("#input_find").val();
@@ -106,6 +107,7 @@ $(function () {
                     alert('readDataError');
                 } else {
                     //get data from result.data
+                    showProducts(result.data.Results);
                 }
             },
             error: function (error) {
@@ -128,6 +130,8 @@ $(function () {
                     if (result.data) {
                         //save successfully
                         console.log(result.data);
+                        return result.data;
+                        //
                     } else {
                         //fail to save
                         alert('error when read symbols');

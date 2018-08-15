@@ -10,7 +10,42 @@
 /*
  * judge if sign in 
  */
+var symbolList = [];
+var portfolio = window.currentPortfolio;
+//save temp symbol add by user
+var tempSymbol = [];
+$(document).ready(function () {
+    //load symbol list
+    readSymbols();
 
+    var summaryList = [];
+    //load portfolio's symbol
+    for (var i = 0; i < portfolio.symbols.length ; i++) {
+        var summmary = readSummary(portfolio.symbols[i]);
+        summaryList.push(summary);
+    }
+
+    $('#symbols_table').bootstrapTable({
+        columns: [{
+            field: 'symbol',
+            title: 'Symbol Name'
+        }, {
+            field: 'open',
+            title: 'Open Price'
+        }, {
+            field: 'close',
+            title: 'Close Price'
+        }, {
+            field: 'high',
+            title: 'High Price'
+        }, {
+            field: 'low',
+            title: 'Low Price'
+        }
+        ],
+        data: summaryList
+    });
+});
 function readSummary(symbol) {
     var form = new FormData();
     form.append("summary", symbol);
@@ -28,6 +63,7 @@ function readSummary(symbol) {
                 alert('readDataError');
             } else {
                 //get data from result.data
+                return result.data;
             }
         },
         error: function (error) {
@@ -50,6 +86,7 @@ function readSymbols() {
                 if (result.data) {
                     //save successfully
                     console.log(result.data);
+                    symbolList = result.data;
                 } else {
                     //fail to save
                     alert('error when read symbols');
@@ -131,29 +168,8 @@ function readPortfolioDetail(_from, _to, _split, _symbols) {
 }
 
 
-var symbolList = ["hi", "nice", "well done", "haha"];
-$(document).ready(function () {
-    //load symbol list
-    //TODO
-    //symbolList=funtion()
 
 
-    //load portfolio's item
-    /* $('#portfolioTable').DataTable({
-         "processing": true,
-         "searching": true,
-         //"serverSide": true,
-         "ajax": {
-             "url": "#",
-         },
-         "columns": [
-             { "data": "open" },
-             { "data": "close" },
-             { "data": "high" },
-             { "data": "low" }
-         ]
-     });*/
-});
 function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);
@@ -166,7 +182,6 @@ function getQueryString(name) {
 // find symbol
 //show symbol list
 $(function () {
-    //var availableTags = ["标缝路","诚信路","公诚路","万诚路","何寇路","何潘路","何新路","栎西路","房西路","文化东路","桃源东路","石家东路"];
     $("#input_find").autocomplete({
         source:
                 function (request, response) {
@@ -184,7 +199,33 @@ $(function () {
 //add symbol btn 
 $("#add_btn").click(
     function () {
-        //call 
+        var flag=false;
+        //validate it's a valid symbol
+        for (var i = 0; i < symbolList.length ; i++) {
+            if (symbolList[i] == $("#input_find").val()) {
+                flag = true;
+            }
+        }
+        if (flag == false) {
+            alert("Please choose again, because this symbol not exits!");
+            $("#input_find").val('');
+            return;
+        }
+       ///and this symbol can't be same with exits symbol
+        for (var i = 0; i < portfolio.symbol.length ; i++) {
+            if (portfolio.symbol[i] == $("#input_find").val()) {
+                alert("Sorry, this symbol already exits!");
+                return;
+            }
+        }
+        for (var i = 0; i < tempSymbol.length ; i++) {
+            if (tempSymbol[i] == $("#input_find").val()) {
+                alert("Sorry, this symbol already exits!");
+                return;
+            }
+        }
+        //show time picker
+        $(".datePickerStart").css("display", "block");
     }
 )
 
@@ -198,20 +239,9 @@ $("#save_portfolio").click(
 
 //save portfolio name
 $("#portfolio_name_save").click(
-    function () {
-        $.ajax({
-            type: 'Post',
-            url: "#",
-            data: $("#portfolio_input").value,
-            error: function (msg) {
-                alert("Sorry, please try again!");
-            },
-            success: function (data) {
-                // populate page, add this portfolio
-
-            }
-        });
-    }
+      function(){
+          saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+      }
 );
 
 //echarts function start here
@@ -479,13 +509,18 @@ function (start, end, label) {
     } else {
         this.element.val(this.startDate.format(this.locale.format));
         //validate
-        if (!endTimeTake) {
+        if (endTimeTake) {
             if (endTimeTake < beginTimeTake) {
                 alert("Please input a valid end date!");
                 this.element.val('');
+                return;
             }
             //TODO
 
+            $(".datePickerStart").css("display", "none");
+           /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
+            portfolio.from = beginTimeTake;
+            portfolio.to = endTimeTake;
         }
     }
 });
@@ -510,12 +545,18 @@ function (start, end, label) {
     } else {
         this.element.val(this.endDate.format(this.locale.format));
         //validate
-        if (!beginTimeTake) {
+        if (beginTimeTake) {
             if (endTimeTake < beginTimeTake) {
                 alert("Please input a valid end date!");
                 this.element.val('');
+                return;
             }
             //TODO 
+
+            $(".datePickerStart").css("display", "none");
+            portfolio.from = beginTimeTake;
+            portfolio.to = endTimeTake;
+           /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
         }
     }
 });
@@ -539,5 +580,10 @@ function (start, end, label) {
         this.element.val('');
     } else {
         this.element.val(this.endDate.format(this.locale.format));
+        //TODO 
+
+        $(".datePickerStart").css("display", "none");
+        portfolio.from = beginTimeTake;
+        /*readPortfolioDetail(endTimeTake, endTimeTake, "m", symbol);*/
     }
 });
