@@ -19,11 +19,17 @@
     <title>Data Analytics - User @ViewBag.Title</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
 
     <!-- bootstrap -->
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
     <link href="~/Content/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
+
 
     <!-- libraries -->
     <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
@@ -32,9 +38,15 @@
     <link rel="stylesheet" type="text/css" href="~/Content/layout.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/elements.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/icons.css" />
-
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
     <!-- this page specific styles -->
     <link rel="stylesheet" href="~/Content/compiled/user-profile.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -139,7 +151,11 @@
                         <div class="profile-box">
                             <h6>User Portfolio</h6>
                             <br />
+
                             <!-- recent orders table -->
+                            <!-- recent orders table -->
+                            <table id="portfolios_table"></table>
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>

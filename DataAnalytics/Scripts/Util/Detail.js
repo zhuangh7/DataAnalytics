@@ -51,15 +51,7 @@ function refreshDataTable() {
             title: 'Low Price'
         }
         ],
-        data: [
-            {
-                symbol: 'a',
-                open: 12.3,
-                close: 12.2,
-                high: 18,
-                low: 9
-            }
-        ]
+        data: summaryList
     });
 }
 function readSummary(symbol) {
@@ -635,3 +627,15 @@ function addData(symbol) {
     };
     readPortfolioDetail(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols[length(portfolio.symbols) - 1], func);
 }
+
+//function (start, end, label) {
+//    endTimeTake = end;
+//    if (!this.endDate) {
+//        this.element.val('');
+//    } else {
+//        this.element.val(this.endDate.format(this.locale.format));
+//        //TODO 
+//        portfolio.from = beginTimeTake;
+//        //echart function here
+//    }
+//});
