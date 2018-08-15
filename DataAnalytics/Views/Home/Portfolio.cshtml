@@ -1,7 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Portfolio";
-    if(ViewBag.username == null && ViewBag.password == null) {
+    if (ViewBag.username == null && ViewBag.password == null)
+    {
         <script>
             alert("please sign in first");
             location.href = "/";
@@ -14,24 +15,15 @@
 <h4>can get password : @ViewBag.password</h4>
 
 <script>
-    function test() {
-        var samplePersonObject = {
-            from: "from",
-            to: "to",
-            split: "split",
-            symbols:["symbol_1","symbol_2"]
-        };
-
-        var jsonSerialized = JSON.stringify(samplePersonObject);
+    function askAllPortfolioObjects() {
 
         $.ajax({
             type: "POST",
-            url: "/home/savePortfolio",
+            url: "/home/readPortfolio",
             dataType: "json",
             contentType: "application/json",
-            data: jsonSerialized,
             success: function (result) {
-                console.log(result); //log to the console to see whether it worked
+                console.log(result); //this result will be a signle json object which contain '''errmsg''' or 
             },
             error: function (error) {
                 alert("There was an error posting the data to the server: " + error.responseText);
@@ -40,4 +32,6 @@
         return false;
     }
 </script>
-<input type="button" onclick="return test()" value="SignUp" />
+<input type="button" onclick="return test()" value="ajax" />
+<input type="button" onclick="location.href='/home/summary'" value="summary" />
+<input type="button" onclick="location.href='/home/detail'" value="detail" />
