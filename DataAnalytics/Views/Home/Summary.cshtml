@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
     <link rel="stylesheet" href="~/Content/compiled/signin.css" type="text/css" media="screen" />
-   
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
@@ -50,7 +50,7 @@
                     </a>
 
                 </li>
-                <div class="copyrights">From <a href="#" title="Team1">C# Team 1</a></div>
+
                 <li class="dropdown">
                     <a href="Signin" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
                         Account...
@@ -61,8 +61,6 @@
                         <li><a href="Signin">Log out</a></li>
                     </ul>
                 </li>
-
-
             </ul>
         </div>
     </div>
@@ -81,9 +79,9 @@
                 </a>
             </li>
             <li>
-                <a href="Chart">
+                <a href="#">
                     <i class="icon-signal"></i>
-                    <span>Charts</span>
+                    <span>Detail</span>
                 </a>
             </li>
             <li>
@@ -124,14 +122,27 @@
 
 
             <div id="pad-wrapper" class="summary">
-                <div><label>symbol:</label><label id="symbolName"></label></div>
-                <div><label>open:</label><label id="open"></label></div>
-                <div><label>close:</label><label id="close"></label></div>
-                <div><label>high:</label><label id="high"></label></div>
-                <div><label>low:</label><label id="low"></label></div>
-                <div><label>earnings:</label><label id="earnings"></label></div>
-                <div><label>dividents:</label><label id="dividents"></label></div>
-                <input class="btn-glow primary login" style="margin-left:200px;" type="button" name="Compare" value="Compare" />
+                <table border="3" width="400" height="250" cellpadding="10" bordercolor="#305D7A">
+                    <tr>
+                        <td colspan="2"><label id="symbolName">apple</label></td>
+                    </tr>
+                    <tr>
+                        <td>open&nbsp;:&nbsp;<label id="open">1</label></td>
+                        <td>close&nbsp;:&nbsp;<label id="close">2</label></td>
+                    </tr>
+                    <tr>
+                        <td>low&nbsp;:&nbsp;<label id="low">3</label></td>
+                        <td>high&nbsp;:&nbsp;<label id="high">4</label></td>
+                    </tr>
+                    <tr>
+                        <td>earnings&nbsp;:&nbsp; <label id="earnings">5</label></td>
+                        <td>dividents&nbsp;:&nbsp;<label id="dividents">6</label></td>
+                    </tr>
+                </table>
+                <input class="btn-glow primary login" style="margin-left:400px;display:inline;" type="button" name="Compare" value="Compare" />
+
+
+
 
 
             </div>
