@@ -155,6 +155,11 @@ namespace DataAnalytics.Controllers
             ViewBag.password = Session["password"];
             return View("PortfolioDetail");
         }
+        [HttpGet]
+        public ViewResult _Index()
+        {
+            return View();
+        }
     }
 
 }

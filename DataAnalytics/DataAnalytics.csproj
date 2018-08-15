@@ -320,6 +320,7 @@
     <Content Include="Scripts\portfolio.js" />
     <Content Include="Scripts\portfoliodetail.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\summary.js" />
     <Content Include="Scripts\theme.js" />
     <Content Include="Scripts\Util\Detail.js" />
     <Content Include="Scripts\Util\Portfolio.js" />
