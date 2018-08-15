@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace DataAnalytics.Utils {
     public class PortfolioUtil {
-        private static string dbServerName = "sqlexpress02";
+        private static string dbServerName = "SQLEXPRESS";
 
         public static bool _savePortfolio(string username,portfolio portfolio) {
             try

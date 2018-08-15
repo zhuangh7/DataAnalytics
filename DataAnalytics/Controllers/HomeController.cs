@@ -144,7 +144,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("PortfolioDetail");
+            return View("Detail");
         }
 
         [HttpGet]
@@ -154,7 +154,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("PortfolioDetail");
+            return View("Detail");
         }
     }
 
