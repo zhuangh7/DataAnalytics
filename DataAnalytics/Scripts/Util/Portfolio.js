@@ -16,14 +16,7 @@ $(document).ready(
     function(){
         askAllPortfolioObjects();
         //refreshDataTable();
-        //add click event
-        $('#portfolios_table').on('click', 'tr', function () {
-            var id = $(this).children("td:first-child").text();
-            if (id == null || id.length == 0)
-                return;
-            $(this).css("background-color", "##BFEFFF");
-            goDetail(id);
-        });
+
     }
 
 );
@@ -32,15 +25,8 @@ function refreshDataTable() {
     $('#portfolios_table').DataTable({
         
         columns: [{
-            data: 'portfolioID',
-            title: 'portfolioID',
-            /*render(data) {
-                alert(data);
-                return '<a href="/home/detail?portfolioId=' + data + '>' + data + '</a>';
-            }*/
-        }, {
-            data: 'portfolioname',
-            title: "portfolioname",
+            data: 'portfolioLink',
+            title: 'portfolioName',
         }, {
             data: 'from',
             title: 'from',
@@ -49,21 +35,7 @@ function refreshDataTable() {
             title:'to',
         }
         ],
-        //data: portfolioList
-        data: [
-            {
-                portfolioID: 1,
-                portfolioname:"nice1",
-                from:19810125,
-                to:20011003
-            }, {
-                portfolioID: 2,
-                portfolioname: "nice2",
-                from: 19810125,
-                to: 20011003
-            }
- 
-        ]
+        data: portfolioList
     });
 }
 function askAllPortfolioObjects() {
@@ -84,16 +56,11 @@ function askAllPortfolioObjects() {
                     portfolioname: result.data.portfolioname,
                     from: result.data.from,
                     to: result.data.to,
-                    portfolioID:result.data.portfolioID
+                    portfolioID: result.data.portfolioID,
+                    portfolioLink: "<a href= /home/detail?portfolioId=" + result.data.portfolioID + ">" + result.data.portfolioname + "</a>"
                 });
 
                 refreshDataTable();
-
-                //add click event
-                $('#portfolios_table').on('click', 'tr', function () {
-                    var id = $(this).children("td:first-child").text();
-                    goDetail(id);
-                });
 
             }
         },
