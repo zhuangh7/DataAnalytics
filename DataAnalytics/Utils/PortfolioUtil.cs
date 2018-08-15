@@ -49,7 +49,7 @@ namespace DataAnalytics.Utils {
             if (string.IsNullOrEmpty(split))
             {
                 List<Array> aPortfolio_Whole_Data = new List<Array>();
-                if (to.Equals(from) || string.IsNullOrEmpty(to))
+                if (string.IsNullOrEmpty(to)||to.Equals(from))
                 {
                     aPortfolio_Whole_Data = getMData(symbols, from);
                 }else
@@ -180,9 +180,9 @@ namespace DataAnalytics.Utils {
         public static portfolio _getDefaultPortfolio(string baseSymbol)
         {
             var portfolio = new portfolio();
-            portfolio.split = "h";
-            portfolio.from = "2018/5/1";
-            portfolio.to = "2018/7/1";
+            portfolio.split = "";
+            portfolio.from = "20180501";
+            portfolio.to = "";
             portfolio.symbols = new string[]{ baseSymbol };
             return portfolio;
         }

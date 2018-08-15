@@ -5,9 +5,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace DataAnalytics.Utils {
-    public class UserUtil {
-        public static bool userSignIn(string username,string password) {
+namespace DataAnalytics.Utils
+{
+    public class UserUtil
+    {
+        public static bool userSignIn(string username, string password)
+        {
+            if (password == "")
+            {
+                return false;
+            }
             string pwd = "";
             var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("get_UserPwd", conn);
@@ -30,15 +37,14 @@ namespace DataAnalytics.Utils {
             }
         }
 
-        public static bool userSignUp(string username,string password) {
-            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
-            var cmd = new SqlCommand("save_User", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@name", username);
-            cmd.Parameters.AddWithValue("@pwd", password);
-            conn.Open();
-            try
-            {
+        public static bool userSignUp(string username, string password)
+        {
+                var conn = new SqlConnection(SQLConnectionStr.connectionStr);
+                var cmd = new SqlCommand("save_User", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", username);
+                cmd.Parameters.AddWithValue("@pwd", password);
+                conn.Open();
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
                 if (result == 1)
@@ -49,11 +55,6 @@ namespace DataAnalytics.Utils {
                 {
                     return false;
                 }
-            }
-            catch (SqlException)
-            {
-                return false;
-            }
 
         }
     }

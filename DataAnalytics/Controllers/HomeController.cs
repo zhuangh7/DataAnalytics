@@ -50,6 +50,7 @@ namespace DataAnalytics.Controllers
                 Session["login"] = "login";
                 Session["username"] = username;
                 Session["password"] = password;
+                Session["errmsg"] = null;
                 ViewBag.register = true;
             } else {
                 ViewBag.errmsg = "User already exist";
