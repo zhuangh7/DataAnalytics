@@ -27,7 +27,7 @@
         $(this).addClass("active");
         var bg = $(this).data("img");
 
-        $(".login-bg").css("background", "url('~/Content/img/bgs/" + bg + ".jpg')");
+            $("html").css("background-image", "url('/Content/img/bgs/" + bg + "')");
     });
 
 });
