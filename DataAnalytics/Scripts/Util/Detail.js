@@ -360,7 +360,7 @@ function (start, end, label) {
 
             this.element.val(this.endDate.format(this.locale.format));
             //TODO 
-            portfolio.to = MonentObjectFormart(singleTimeTake);
+            portfolio.from = MonentObjectFormart(singleTimeTake);
             //echart function here
         }
 });
