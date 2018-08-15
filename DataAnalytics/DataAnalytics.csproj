@@ -317,11 +317,10 @@
     <Content Include="Scripts\jquery.knob.js" />
     <Content Include="Scripts\jquery.uniform.min.js" />
     <Content Include="Scripts\morris.min.js" />
-    <Content Include="Scripts\portfolio.js" />
-    <Content Include="Scripts\portfoliodetail.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\theme.js" />
     <Content Include="Scripts\Util\Detail.js" />
+    <Content Include="Scripts\Util\echart.js" />
     <Content Include="Scripts\Util\Portfolio.js" />
     <Content Include="Scripts\Util\SignIn.js" />
     <Content Include="Scripts\Util\SignUp.js" />
