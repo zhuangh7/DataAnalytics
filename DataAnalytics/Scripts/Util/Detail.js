@@ -14,6 +14,7 @@ var symbolList = [];
 var portfolio = window.currentPortfolio;
 //save temp symbol add by user
 var tempSymbol = [];
+var summaryList = [];
 $(document).ready(function () {
     //show portfolio name
     if (portfolio.portfolioname) {
@@ -23,13 +24,14 @@ $(document).ready(function () {
     //load symbol list
     readSymbols();
 
-    var summaryList = [];
     //load portfolio's symbol
     for (var i = 0; i < portfolio.symbols.length ; i++) {
-        var summmary = readSummary(portfolio.symbols[i]);
-        summaryList.push(summary);
+        readSummary(portfolio.symbols[i]);
     }
 
+    
+});
+function refreshDataTable() {
     $('#symbols_table').bootstrapTable({
         columns: [{
             field: 'symbol',
@@ -48,22 +50,31 @@ $(document).ready(function () {
             title: 'Low Price'
         }
         ],
-        data: summaryList
+        data: [
+            {
+                symbol: 'a',
+                open: 12.3,
+                close: 12.2,
+                high: 18,
+                low:9
+            }
+        ]
     });
-});
+}
 function readSummary(symbol) {
     $.ajax({
         type: "POST",
         url: "/home/readSummary",
         dataType: "json",
-        data: symbol,
+        data: { summary: symbol },
         success: function (result) {
             console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which contain a summary object
             if (result.errmsg != null) {
                 alert('readDataError');
             } else {
                 //get data from result.data
-                return result.data;
+                summaryList.push(result.data);
+                refreshDataTable();
             }
         },
         error: function (error) {

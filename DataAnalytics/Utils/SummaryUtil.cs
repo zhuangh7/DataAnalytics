@@ -9,12 +9,11 @@ namespace DataAnalytics.Utils
 {
     public class SummaryUtil
     {
-        private static string dbServerName = "sqlexpress02";
 
         public static string[] readSymbols()
         {
             List<string> symbols = new List<string>();
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("get_allSymbols", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             conn.Open();
@@ -34,7 +33,7 @@ namespace DataAnalytics.Utils
         {
             var summary = new summary();
             List<string> symbols = new List<string>();
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             conn.Open();
             var cmd = new SqlCommand("get_Summary", conn);
             cmd.CommandType = CommandType.StoredProcedure;

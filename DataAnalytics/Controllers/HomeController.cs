@@ -30,6 +30,7 @@ namespace DataAnalytics.Controllers
                 Session["login"] = "login";
                 Session["username"] = username;
                 Session["password"] = password;
+                ViewBag.errmsg = null;
                 return RedirectToAction("Portfolio");
             } else {
                 ViewBag.errmsg = "User name not exist or password not match";
@@ -144,7 +145,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("PortfolioDetail");
+            return View("Detail");
         }
 
         [HttpGet]
@@ -154,7 +155,7 @@ namespace DataAnalytics.Controllers
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
-            return View("PortfolioDetail");
+            return View("Detail");
         }
     }
 
