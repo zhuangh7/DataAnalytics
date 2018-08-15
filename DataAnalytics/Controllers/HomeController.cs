@@ -81,7 +81,7 @@ namespace DataAnalytics.Controllers
             if (Session["username"] != null)
             {
                 var result = DataAnalytics.Utils.PortfolioUtil._readPortfolioDetail(item);
-                return Json(new { data = result});
+                return Json(new { data = result });
             }
             else
             {

@@ -7,10 +7,12 @@
     @{
         <script>
         var cp = {
-         from :"@ViewBag.portfolio.from",
-         to :"@ViewBag.portfolio.to",
-        split : "@ViewBag.portfolio.split",
-        symbols : []
+            from :"@ViewBag.portfolio.from",
+            to :"@ViewBag.portfolio.to",
+            split: "@ViewBag.portfolio.split",
+            portfolioname: "@MvcHtmlString.Create(ViewBag.portfolio.portfolioname)",
+            portfolioId:"@ViewBag.portfolio.portfolioID",
+            symbols : []
        }
         </script>
 
