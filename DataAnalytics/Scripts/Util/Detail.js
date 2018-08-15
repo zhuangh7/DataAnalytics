@@ -459,6 +459,7 @@ $("#portfolio_name_save").click(
 var beginTimeTake;
 var endTimeTake;
 
+//date range
 $('#dateRangeStart').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -486,9 +487,12 @@ function (start, end, label) {
             }
             //TODO
 
+
+
         }
     }
 });
+//
 $('#dateRangeEnd').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -520,6 +524,7 @@ function (start, end, label) {
     }
 });
 
+//single
 $('#singleDate').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -541,3 +546,4 @@ function (start, end, label) {
         this.element.val(this.endDate.format(this.locale.format));
     }
 });
+
