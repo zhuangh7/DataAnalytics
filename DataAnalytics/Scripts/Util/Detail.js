@@ -260,6 +260,7 @@ $("#portfolio_name_save").click(
 //daterangePicker
 var beginTimeTake;
 var endTimeTake;
+var singleTimeTake;
 
 $('#dateRangeStart').daterangepicker({
     singleDatePicker: true,
@@ -288,8 +289,8 @@ $('#dateRangeStart').daterangepicker({
                     return;
                 }
                 /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
-                portfolio.from = beginTimeTake;
-                portfolio.to = endTimeTake;
+                portfolio.from = MonentObjectFormart(beginTimeTake);
+                portfolio.to = MonentObjectFormart(endTimeTake);
                 //echart function here
             }
         }
@@ -321,9 +322,13 @@ $('#dateRangeEnd').daterangepicker({
                     this.element.val('');
                     return;
                 }
+                if ($('#singleDate').val().length != 0) {
+                    alert("Please choose a single date or date change, not both!");
+                    return;
+                }
                 //TODO 
-                portfolio.from = beginTimeTake;
-                portfolio.to = endTimeTake;
+                portfolio.from = MonentObjectFormart(beginTimeTake);
+                portfolio.to = MonentObjectFormart(endTimeTake);
                 //echart function here
             }
         }
@@ -342,18 +347,40 @@ $('#singleDate').daterangepicker({
         resetLabel: "重置",
     }
 },
-    function (start, end, label) {
-        endTimeTake = end;
+function (start, end, label) {
+        singleTimeTake = end;
         if (!this.endDate) {
             this.element.val('');
         } else {
+
+            if ($('#dateRangeEnd').val().length != 0 || $('#dateRangeStart').val().length!=0) {
+                alert("Please choose a single date or date change, not both!");
+                return;
+            }
+
             this.element.val(this.endDate.format(this.locale.format));
             //TODO 
-            portfolio.from = beginTimeTake;
+            portfolio.to = MonentObjectFormart(singleTimeTake);
             //echart function here
         }
-    });
+});
+function MonentObjectFormart(m) {
+    var str = "";
+    if (!m) {
+        return null;
+    }
+    for (var i = 0; i < 3; i++) {
+        var mi = m._i[i].toString();
+        if(mi.length==1){
+            str=str+'0'+m._i[i];
+        }else{
+            str+=m._i[i];
+        }
+    }
+    return str;
+}
 
+//echarts
 var dom = document.getElementById("container");//<div id="container" style="height: 100%"></div>
 var myChart1 = echarts.init(dom);
 readPortfolioDetail(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);

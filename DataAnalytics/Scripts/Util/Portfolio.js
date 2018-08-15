@@ -55,8 +55,14 @@ function askAllPortfolioObjects() {
                     to: result.data.to,
                     portfolioID:result.data.portfolioID
                     });
-
                 refreshDataTable();
+
+                //add click event
+                $('#portfolios_table').on('click', 'tr', function () {
+                    var id = $(this).children("td:first-child").text();
+                    goDetail(id);
+                });
+
             }
         },
         error: function (error) {
