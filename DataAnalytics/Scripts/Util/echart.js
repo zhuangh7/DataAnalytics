@@ -68,7 +68,7 @@ function addEchartSymbol_2(data) {
 }
 
 
-function iniaData(_from, _to, _split, _symbols) {
+function initData(_from, _to, _split, _symbols) {
     
     var addmodel = {
         name: "close",
