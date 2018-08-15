@@ -157,22 +157,21 @@
   .table-products .pagination {
     float: right;
     margin-top: 35px; }
-.summary {
-    border: 1px solid #000;
-    margin-left:200px;
-    width: 300px;
-    height: 400px;
-}
 
-    .summary div {
-        
-        width: 150px;
-        height: 50px;
-    }
-        .summary div label {
+
+        .summary td {
             font-size: 20px;
-            text-align: center;
+            font-family:sans-serif;
+            font-weight:100;
         }
+.summary label {
+    font-family: sans-serif;
+    display: inline;
+    font-size: 25px;
+}
+.summary table {
+    box-shadow: 10px 10px 5px #888888;
+}
 /* responsive */
 @media (max-width: 767px) {
   #main-stats {

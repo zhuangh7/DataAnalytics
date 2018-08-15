@@ -50,7 +50,7 @@ $(function () {
     $("input[name='apply']").click(function () {
         var inputSymbol = $("#input_find").val();
         console.log(inputSymbol);
-        //readSummary(inputSymbol);//call API
+        readSummary(inputSymbol);//call API
         
     });
 
@@ -58,6 +58,7 @@ $(function () {
         var inputSymbol = $("#input_find").val();
         console.log(inputSymbol);
         var summary = readSummary(inputSymbol);//call API
+        
         $("#symbol").val = summary.symbol;
         $("#close").val = summary.close;
         $("#open").val = summary.open;
@@ -66,6 +67,26 @@ $(function () {
         $("#earnings").val = summary.earnings;
         $("#dividents").val = summary.dividents;
         location.href = "/home/detail?baseSymbol=" + inputSymbol;
+    });
+    $("input[name='display']").click(function () {
+        var inputSymbol = $("#input_find").val();
+        console.log(inputSymbol);
+        var symbolName = document.getElementById("symbolName");
+        symbolName.innerText = inputSymbol;
+        var close = document.getElementById("close");
+        close.innerText = "23";
+        var open = document.getElementById("open");
+        open.innerText = "24";
+        var high = document.getElementById("high");
+        high.innerText = "25";
+        var high = document.getElementById("high");
+        high.innerText = "26";
+        var low = document.getElementById("low");
+        low.innerText = "27";
+        var earnings = document.getElementById("earnings");
+        earnings.innerText = "28";
+        var dividents = document.getElementById("dividents");
+        dividents.innerText = "29";
     });
 
     function readSummary(symbol) {
