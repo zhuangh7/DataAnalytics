@@ -17,3 +17,17 @@
 
 //<input type="button" onclick="location.href='/home/signup';" value="SignUp" />
 /*also need a button to jump to sign up page*/
+
+        $(function () {
+            // bg switcher
+        var $btns = $(".bg-switch .bg");
+        $btns.click(function (e) {
+        e.preventDefault();
+        $btns.removeClass("active");
+        $(this).addClass("active");
+        var bg = $(this).data("img");
+
+        $(".login-bg").css("background", "url('~/Content/img/bgs/" + bg + ".jpg')");
+    });
+
+});
