@@ -13,26 +13,57 @@
 var portfolioList = [];
 
 $(document).ready(
-    askAllPortfolioObjects()
+    function(){
+        askAllPortfolioObjects();
+        //refreshDataTable();
+        //add click event
+        $('#portfolios_table').on('click', 'tr', function () {
+            var id = $(this).children("td:first-child").text();
+            if (id == null || id.length == 0)
+                return;
+            $(this).css("background-color", "##BFEFFF");
+            goDetail(id);
+        });
+    }
+
 );
 
 function refreshDataTable() {
-    $('#portfolios_table').bootstrapTable({
+    $('#portfolios_table').DataTable({
+        
         columns: [{
-            field: 'portfolioID',
-            title: 'id'
+            data: 'portfolioID',
+            title: 'portfolioID',
+            /*render(data) {
+                alert(data);
+                return '<a href="/home/detail?portfolioId=' + data + '>' + data + '</a>';
+            }*/
         }, {
-            field: 'portfolioname',
-            title: 'portfolioname'
+            data: 'portfolioname',
+            title: "portfolioname",
         }, {
-            field: 'from',
-            title: 'Start Time'
+            data: 'from',
+            title: 'from',
         }, {
-            field: 'to',
-            title: 'End Time'
+            data: 'to',
+            title:'to',
         }
         ],
-        data: portfolioList
+        //data: portfolioList
+        data: [
+            {
+                portfolioID: 1,
+                portfolioname:"nice1",
+                from:19810125,
+                to:20011003
+            }, {
+                portfolioID: 2,
+                portfolioname: "nice2",
+                from: 19810125,
+                to: 20011003
+            }
+ 
+        ]
     });
 }
 function askAllPortfolioObjects() {
@@ -54,7 +85,8 @@ function askAllPortfolioObjects() {
                     from: result.data.from,
                     to: result.data.to,
                     portfolioID:result.data.portfolioID
-                    });
+                });
+
                 refreshDataTable();
 
                 //add click event
