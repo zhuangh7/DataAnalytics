@@ -1,10 +1,9 @@
 ﻿<script src="Scripts/jquery-3.3.1.js"></script>
 <script src="Scripts/Util/Detail.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-
-  //      var dom = document.getElementById("container");//<div id="container" style="height: 100%"></div>
+ var dom = document.getElementById("container");//<div id="container" style="height: 100%"></div>
 var myChart1 = echarts.init(dom);
-window.currentPortfolio = ViewBag.portfolio;
+window.currentPortfolio = @ViewBag.portfolio;
 //var mychart2 = echarts.init(dom);
 // var app = {};
 
@@ -45,7 +44,7 @@ function updateEchartBase(data) {
     inimodel3.data = data.obj[0].volumns;
     option.series.push(inimodel1, inimodel2, inimodel3)
     option.xAxis[0].data = data.obj[0].categoryData;
-    option.xAxis[0].data = data.obj[1].categoryData;
+    option.xAxis[1].data = data.obj[0].categoryData;
     myChart1.setOption(option);
 }
 

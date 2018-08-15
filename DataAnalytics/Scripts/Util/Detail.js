@@ -18,6 +18,7 @@ $(document).ready(function () {
     //load symbol list
     readSymbols();
 
+
     var summaryList = [];
     //load portfolio's symbol
     for (var i = 0; i < portfolio.symbols.length ; i++) {
