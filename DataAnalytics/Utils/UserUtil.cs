@@ -9,7 +9,7 @@ namespace DataAnalytics.Utils {
     public class UserUtil {
         public static bool userSignIn(string username,string password) {
             string pwd = "";
-            var conn = new SqlConnection(@"server=.\sqlexpress02;database=DataAnalytics;integrated security=true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("get_UserPwd", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@name", username);
@@ -31,7 +31,7 @@ namespace DataAnalytics.Utils {
         }
 
         public static bool userSignUp(string username,string password) {
-            var conn = new SqlConnection(@"server=.\sqlexpress02;database=DataAnalytics;integrated security=true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("save_User", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@name", username);

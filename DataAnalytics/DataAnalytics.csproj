@@ -193,6 +193,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\portfolio.cs" />
     <Compile Include="Utils\PortfolioUtil.cs" />
+    <Compile Include="Utils\SQLConnectionStr.cs" />
     <Compile Include="Utils\summary.cs" />
     <Compile Include="Utils\SummaryUtil.cs" />
     <Compile Include="Utils\UserUtil.cs" />

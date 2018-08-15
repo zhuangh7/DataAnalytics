@@ -8,12 +8,11 @@ using System.Web.Mvc;
 
 namespace DataAnalytics.Utils {
     public class PortfolioUtil {
-        private static string dbServerName = "sqlexpress02";
-
+        
         public static bool _savePortfolio(string username,portfolio portfolio) {
             try
             {
-                var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+                var conn = new SqlConnection(SQLConnectionStr.connectionStr);
                 var cmd = new SqlCommand("save_Portfolio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", username);
@@ -78,7 +77,7 @@ namespace DataAnalytics.Utils {
 
         private static List<Array> getMData(string[] symbols, string from)
         {
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             conn.Open();
             List<Array> aPortfolio_Whole_Data = new List<Array>();
             foreach (string symbol in symbols)
@@ -111,7 +110,7 @@ namespace DataAnalytics.Utils {
 
         private static List<Array> getHData(string[] symbols, string from, string to)
         {
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             conn.Open();
             List<Array> aPortfolio_Whole_Data = new List<Array>();
             foreach (string symbol in symbols)
@@ -145,7 +144,7 @@ namespace DataAnalytics.Utils {
 
         public static portfolio _getPortfolio(string portfolioId)
         {
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("get_Portfolio_ByPortID", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PortID", int.Parse(portfolioId));
@@ -191,7 +190,7 @@ namespace DataAnalytics.Utils {
         public static portfolio[] _readPortfolio(string username) {
             List<portfolio> portfolios = new List<portfolio>();
 
-            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            var conn = new SqlConnection(SQLConnectionStr.connectionStr);
             var cmd = new SqlCommand("get_Portfolio", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@name", username);
