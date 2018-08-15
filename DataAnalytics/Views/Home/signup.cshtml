@@ -11,19 +11,9 @@
     {
         <script>
             alert("regist successfully");
-            location.href = "/home/portfolio";
+            location.href = "/home/Portfolio";
         </script>
     }
-}
-<h2>@ViewBag.Title</h2>
-<form action="#" method="post">
-    First name: <input type="text" name="username" />
-    Last name: <input type="text" name="password" />
-    <input type="submit" value="Submit" />
-</form>
-
-@{
-    ViewBag.Title = "Signup";
 }
 <!DOCTYPE html>
 <html class="login-bg">
@@ -69,18 +59,20 @@
                     <input class="span12" type="text" name="username" placeholder="E-mail address" />
                     <input class="span12" type="password" name="password" placeholder="Password" />
                     <div class="action">
-                        <a class="btn-glow primary signup" href="index.html">Sign up</a>
+                        <input type="submit" class="btn-glow primary signup" value="Sign up" />
+                    </div>
                 </form>
 
             </div>
         </div>
+        <div class="span4 already">
+            <p>Already have an account?</p>
+            <a href="Signin">Sign in</a>
+        </div>
     </div>
+   
 
-    <div class="span4 already">
-        <p>Already have an account?</p>
-        <a href="Signin">Sign in</a>
-    </div>
-    </div>
+
 
     <!-- scripts -->
     <script src="~/Scripts/jquery-latest.js"></script>
