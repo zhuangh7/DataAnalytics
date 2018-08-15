@@ -12,7 +12,8 @@ namespace DataAnalytics.Utils
         public string close { get; set; }
         public string high { get; set; }
         public string low { get; set; }
+        public string volume { get; set; }
         public string earnings { get; set; }
-        public string dividents { get; set; }
+        public string dividends { get; set; }
     }
 }

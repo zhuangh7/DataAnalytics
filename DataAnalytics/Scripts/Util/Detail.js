@@ -15,6 +15,11 @@ var portfolio = window.currentPortfolio;
 //save temp symbol add by user
 var tempSymbol = [];
 $(document).ready(function () {
+    //show portfolio name
+    if (portfolio.portfolioname) {
+        $("#portfolio_name").text(portfolio.portfolioname);
+    }
+    
     //load symbol list
     readSymbols();
 
@@ -225,17 +230,23 @@ $("#add_btn").click(
                 return;
             }
         }
-        //show time picker
-        $(".datePickerStart").css("display", "block");
+        //add symbol to portfolio
+        portfolio.symbol.push($("#input_find").val());
+
+        //echart function here
     }
 )
 
 //save portfolio
-$("#save_portfolio").click(
+$("#save_portfolio").click(    
     function () {
-        $("#myModal").modal("show");
+        if (!portfolio.portfolioname) {
+            $("#myModal").modal("show");
+        } else {
+            saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+            $("#portfolio_name").text(portfolio.portfolioname);
+        }
     }
-
 );
 
 //save portfolio name
@@ -244,245 +255,6 @@ $("#portfolio_name_save").click(
           saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
       }
 );
-
-//echarts function start here
-/*$(document).ready(
-    function () {
-        var dom = document.getElementById("echart");
-        var myChart = echarts.init(dom);
-        var app = {};
-        option = null;
-
-        function splitData(rawData) {
-            var categoryData = [];
-            var values = [];
-            var volumns = [];
-            var close = [];
-            for (var i = 0; i < rawData.length; i++) {
-                categoryData.push(rawData[i].splice(0, 1)[0]);
-                values.push(rawData[i]);
-                volumns.push(rawData[i][4]);
-                close.push(rawData[i][1])
-            }
-            return {
-                categoryData: categoryData,
-                values: values,
-                volumns: volumns,
-                close: close
-            };
-        }
-
-        function calculateMA(dayCount, data) {
-            var result = [];
-            for (var i = 0, len = data.values.length; i < len; i++) {
-                if (i < dayCount) {
-                    result.push('-');
-                    continue;
-                }
-                var sum = 0;
-                for (var j = 0; j < dayCount; j++) {
-                    sum += data.values[i - j][1];
-                }
-                result.push(+(sum / dayCount).toFixed(3));
-            }
-            return result;
-        }
-
-        $.ajax({
-            type: 'get',
-            url: "stock-DJI.json",
-            dataType: "jsonp",
-            success: function (rawdata) {
-                var data = splitData(rawData);
-
-                myChart.setOption(option = {
-                    backgroundColor: '#eee',
-                    animation: false,
-                    legend: {
-                        bottom: 10,
-                        left: 'center',
-                        data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']
-                    },
-
-                    axisPointer: {
-                        link: { xAxisIndex: 'all' },
-                        label: {
-                            backgroundColor: '#777'
-                        }
-                    },
-                    toolbox: {
-                        feature: {
-                            dataZoom: {
-                                yAxisIndex: false
-                            },
-                            brush: {
-                                type: ['lineX', 'clear']
-                            }
-                        }
-                    },
-                    brush: {
-                        xAxisIndex: 'all',
-                        brushLink: 'all',
-                        outOfBrush: {
-                            colorAlpha: 0.1
-                        }
-                    },
-                    grid: [
-                        {
-                            left: '10%',
-                            right: '8%',
-                            height: '50%'
-                        },
-                        {
-                            left: '10%',
-                            right: '8%',
-                            bottom: '20%',
-                            height: '15%'
-                        }
-                    ],
-                    xAxis: [
-                        {
-                            type: 'category',
-                            data: data.categoryData,
-                            scale: true,
-                            boundaryGap: false,
-                            axisLine: { onZero: false },
-                            splitLine: { show: false },
-                            splitNumber: 20,
-                            min: 'dataMin',
-                            max: 'dataMax',
-                            axisPointer: {
-                                z: 100
-                            }
-                        },
-                        {
-                            type: 'category',
-                            gridIndex: 1,
-                            data: data.categoryData,
-                            scale: true,
-                            boundaryGap: false,
-                            axisLine: { onZero: false },
-                            axisTick: { show: false },
-                            splitLine: { show: false },
-                            axisLabel: { show: false },
-                            splitNumber: 20,
-                            min: 'dataMin',
-                            max: 'dataMax',
-                            axisPointer: {
-                                label: {
-                                    formatter: function (params) {
-                                        var seriesValue = (params.seriesData[0] || {}).value;
-                                        return params.value
-                                            + (seriesValue != null
-                                                ? '\n' + echarts.format.addCommas(seriesValue)
-                                                : ''
-                                            );
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    yAxis: [
-                        {
-                            scale: true,
-                            splitArea: {
-                                show: true
-                            }
-                        },
-                        {
-                            scale: true,
-                            gridIndex: 1,
-                            splitNumber: 2,
-                            axisLabel: { show: false },
-                            axisLine: { show: false },
-                            axisTick: { show: false },
-                            splitLine: { show: false }
-                        }
-                    ],
-                    dataZoom: [
-                        {
-                            type: 'inside',
-                            xAxisIndex: [0, 1],
-                            start: 98,
-                            end: 100
-                        },
-                        {
-                            show: true,
-                            xAxisIndex: [0, 1],
-                            type: 'slider',
-                            top: '85%',
-                            start: 98,
-                            end: 100
-                        }
-                    ],
-                    series: [
-                        {
-                            name: 'Dow-Jones index',
-                            type: 'candlestick',
-                            data: data.values,
-                            itemStyle: {
-                                normal: {
-                                    color: '#06B800',
-                                    color0: '#FA0000',
-                                    borderColor: null,
-                                    borderColor0: null
-                                },
-                                encode: { tooltip: [1, 2] }
-                            },
-                        },
-
-                        {
-                            // name: "close",
-                            type: 'line',
-                            data: data.close,
-                            smooth: true,
-                            lineStyle: {
-                                normal: { opacity: 0.5 }
-                            },
-                            tooltip: { show: false }
-
-
-                        },
-
-                        {
-                            name: 'Volumn',
-                            type: 'bar',
-                            xAxisIndex: 1,
-                            yAxisIndex: 1,
-                            data: data.volumns
-                        }
-                    ],
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross'
-                        },
-                        backgroundColor: 'rgba(245, 245, 245, 0.8)',
-                        borderWidth: 1,
-                        borderColor: '#ccc',
-                        padding: 10,
-                        textStyle: {
-                            color: '#000'
-                        },
-                        position: function (pos, params, el, elRect, size) {
-                            var obj = { top: 10 };
-                            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-                            return obj;
-                        },
-                        extraCssText: 'width: 170px'
-
-                    },
-                }, true);
-
-            }
-
-        }
-            );
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
-    }
-)*/
 
 //time picker
 
@@ -516,12 +288,10 @@ function (start, end, label) {
                 this.element.val('');
                 return;
             }
-            //TODO
-
-            $(".datePickerStart").css("display", "none");
            /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
             portfolio.from = beginTimeTake;
             portfolio.to = endTimeTake;
+            //echart function here
         }
     }
 });
@@ -553,11 +323,9 @@ function (start, end, label) {
                 return;
             }
             //TODO 
-
-            $(".datePickerStart").css("display", "none");
             portfolio.from = beginTimeTake;
             portfolio.to = endTimeTake;
-           /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
+            //echart function here
         }
     }
 });
@@ -582,9 +350,7 @@ function (start, end, label) {
     } else {
         this.element.val(this.endDate.format(this.locale.format));
         //TODO 
-
-        $(".datePickerStart").css("display", "none");
         portfolio.from = beginTimeTake;
-        /*readPortfolioDetail(endTimeTake, endTimeTake, "m", symbol);*/
+        //echart function here
     }
 });
