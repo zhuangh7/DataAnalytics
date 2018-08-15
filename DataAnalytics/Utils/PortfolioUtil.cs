@@ -24,10 +24,10 @@ namespace DataAnalytics.Utils {
                 conn.Open();
                 int result = (int)cmd.ExecuteScalar();
 
-                var cmd_1 = new SqlCommand("save_Portfolio_Items", conn);
-                cmd_1.CommandType = CommandType.StoredProcedure;
                 foreach (string symbol in portfolio.symbols)
                 {
+                    var cmd_1 = new SqlCommand("save_Portfolio_Items", conn);
+                    cmd_1.CommandType = CommandType.StoredProcedure;
                     cmd_1.Parameters.AddWithValue("@PortID", result);
                     cmd_1.Parameters.AddWithValue("@symbol", symbol);
                     cmd_1.ExecuteNonQuery();
@@ -43,7 +43,104 @@ namespace DataAnalytics.Utils {
 
         public static object _readPortfolioDetail(portfolio port)
         {
+            string[] symbols = port.symbols;
+            string from = port.from;
+            string to = port.to;
+            string split = port.split;
+            if (string.IsNullOrEmpty(split))
+            {
+                List<Array> aPortfolio_Whole_Data = new List<Array>();
+                if (to.Equals(from) || string.IsNullOrEmpty(to))
+                {
+                    aPortfolio_Whole_Data = getMData(symbols, from);
+                }else
+                {
+                    aPortfolio_Whole_Data = getHData(symbols, from, to);
+                }
+                return aPortfolio_Whole_Data;
+            }
+            else
+            {
+                if (split.Equals("m"))
+                {
+
+                }else if (split.Equals("h"))
+                {
+
+                }else if (split.Equals("d"))
+                {
+
+                }
+                return new { errmsg = "It has not been completed" };
+            }
             return new { errmsg = "login time out" };
+        }
+
+        private static List<Array> getMData(string[] symbols, string from)
+        {
+            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            conn.Open();
+            List<Array> aPortfolio_Whole_Data = new List<Array>();
+            foreach (string symbol in symbols)
+            {
+                List<Array> aSymbol_whole_Data = new List<Array>();
+                var cmd = new SqlCommand("get_MinuteData", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@date", int.Parse(from));
+                cmd.Parameters.AddWithValue("@symbol", symbol);
+                SqlDataReader resultReader = cmd.ExecuteReader();
+                while (resultReader.Read())
+                {
+                    List<string> aSymbol_singleMunite_Data = new List<string>();
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(0).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(1).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(2).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(3).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(4).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(5).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(6).ToString());
+                    aSymbol_singleMunite_Data.Add(resultReader.GetValue(7).ToString());
+
+                    aSymbol_whole_Data.Add(aSymbol_singleMunite_Data.ToArray());
+                }
+                aPortfolio_Whole_Data.Add(aSymbol_whole_Data.ToArray());
+            }
+            
+            return aPortfolio_Whole_Data;
+        }
+
+        private static List<Array> getHData(string[] symbols, string from, string to)
+        {
+            var conn = new SqlConnection(@"server=.\" + dbServerName + "; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true");
+            conn.Open();
+            List<Array> aPortfolio_Whole_Data = new List<Array>();
+            foreach (string symbol in symbols)
+            {
+                List<Array> aSymbol_whole_Data = new List<Array>();
+                var cmd = new SqlCommand("get_HourData", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@startDate", int.Parse(from));
+                cmd.Parameters.AddWithValue("@endDate", int.Parse(to));
+                cmd.Parameters.AddWithValue("@symbol", symbol);
+                SqlDataReader resultReader = cmd.ExecuteReader();
+                while (resultReader.Read())
+                {
+                    List<string> aSymbol_singleHour_Data = new List<string>();
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(0).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(1).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(2).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(3).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(4).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(5).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(6).ToString());
+                    aSymbol_singleHour_Data.Add(resultReader.GetValue(7).ToString());
+
+                    aSymbol_whole_Data.Add(aSymbol_singleHour_Data.ToArray());
+                }
+                aPortfolio_Whole_Data.Add(aSymbol_whole_Data.ToArray());
+            }
+
+            return aPortfolio_Whole_Data;
         }
 
         public static portfolio _getPortfolio(string portfolioId)

@@ -13,8 +13,8 @@
 
 
 $(function () {
-    var symbolNum = 0;
-    var availableTags = [
+    var symbols = readSymbols();
+    symbols = [
         "ActionScript",
         "AppleScript",
         "Asp",
@@ -41,57 +41,36 @@ $(function () {
     ];
     $("#input_find").autocomplete({
         source: function (request, response) {
-            var results = $.ui.autocomplete.filter(availableTags, request.term);
+            var results = $.ui.autocomplete.filter(symbols, request.term);
             response(results.slice(0, 10));
             //console.log(results);
-            symbolNum = results.length;
         },
     });
-
-
-    var showProducts = function (products) {
-        $("#dataa").DataTable({
-            "columns": [{ data: "ProductID" },
-            { data: "ProductName" }],
-            data: products
-        });
-    };
-    var getProducts = function () {
-        $.ajax({
-            url: "http://tonycox.net/neueda/NeuedaService.asmx/getproducts",
-            type: "GET",
-            dataType: "jsonp",
-            crossDomain: true,
-            success: function (response) {
-                showProducts(response.Results);
-            }
-        });
-    };
-    getProducts();
 
     $("input[name='apply']").click(function () {
         var inputSymbol = $("#input_find").val();
         console.log(inputSymbol);
         //readSummary(inputSymbol);//call API
-        var table = $('#dataa').DataTable();
-        table.search(inputSymbol).draw();
+        
     });
 
-    $("input[name='detail']").click(function () {
+    $("input[name='Compare']").click(function () {
         var inputSymbol = $("#input_find").val();
         console.log(inputSymbol);
-        //readSummary(inputSymbol);//call API
-        var table = $('#dataa').DataTable();
-        table.search(inputSymbol).draw();
-        //console.log(table);
-        if (symbolNum != 1)
-            alert("Please input a correct symbol!")
-        else location.href = "/home/detail?baseSymbol=" + inputSymbol;
+        var summary = readSummary(inputSymbol);//call API
+        $("#symbol").val = summary.symbol;
+        $("#close").val = summary.close;
+        $("#open").val = summary.open;
+        $("#high").val = summary.high;
+        $("#low").val = summary.low;
+        $("#earnings").val = summary.earnings;
+        $("#dividents").val = summary.dividents;
+        location.href = "/home/detail?baseSymbol=" + inputSymbol;
     });
 
     function readSummary(symbol) {
-        var form = new FormData();
-        form.append("summary", symbol);
+        //var form = new FormData();
+        //form.append("summary", symbol);
 
         $.ajax({
             type: "POST",
@@ -99,13 +78,17 @@ $(function () {
             dataType: "json",
             "contentType": false,
             "mimeType": "multipart/form-data",
-            "data": form,
+            "data": {
+                summary: symbol
+            },
             success: function (result) {
                 console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which contain a summary object
                 if (result.errmsg != null) {
                     alert('readDataError');
                 } else {
                     //get data from result.data
+                    console.log("readSummary:"+result.data);
+                    return result.data;
                 }
             },
             error: function (error) {
@@ -128,6 +111,8 @@ $(function () {
                     if (result.data) {
                         //save successfully
                         console.log(result.data);
+                        return result.data;
+                        //
                     } else {
                         //fail to save
                         alert('error when read symbols');

@@ -1,45 +1,251 @@
-﻿
-@{
-    ViewBag.Title = "_Detail";
-    if (ViewBag.username == null && ViewBag.password == null)
-    {
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @{
+        if (ViewBag.username == null && ViewBag.password == null)
+        {
+            <script>
+                alert("please sign in first");
+                location.href = "/";
+            </script>
+        }
         <script>
-            alert("please sign in first");
-            location.href = "/";
+        var cp = {
+            from :"@ViewBag.portfolio.from",
+            to :"@ViewBag.portfolio.to",
+            split: "@ViewBag.portfolio.split",
+            portfolioname: "@MvcHtmlString.Create(ViewBag.portfolio.portfolioname)",
+            portfolioId:"@ViewBag.portfolio.portfolioID",
+            symbols : []
+       }
+        </script>
+
+        foreach (var symbols in ViewBag.portfolio.symbols)
+        {
+            <script>
+            cp.symbols.push("@symbols");
+            </script>
+        }
+        <script>
+            window.currentPortfolio = cp;
         </script>
     }
-}
+    <title>Data Analytics - User Portfolio</title>
 
-<h2>_Detail</h2>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet">
+    <!-- bootstrap -->
+    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
 
-<script>
-    function test() {
-        var samplePersonObject = {
-            from: "from",
-            to: "to",
-            split: "split",
-            symbols: ["symbol_1", "symbol_2"]
-        };
+    <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
 
-        var jsonSerialized = JSON.stringify(samplePersonObject);
 
-        $.ajax({
-            type: "POST",
-            url: "/home/savePortfolioDetail",
-            dataType: "json",
-            contentType: "application/json",
-            data: jsonSerialized,
-            success: function (result) {
-                console.log(result); //log to the console to see whether it worked
-            },
-            error: function (error) {
-                alert("There was an error posting the data to the server: " + error.responseText);
-            }
-        });
-        return false;
-    }
-</script>
-<input type="button" onclick="return test()" value="ajax" />
+    <!-- libraries -->
+    <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
 
-<h4>can get username : @ViewBag.username</h4>
-<h4>can get password : @ViewBag.password</h4>
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="~/Content/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/elements.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/icons.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="~/Content/compiled/user-profile.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+    <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet">
+
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+
+    <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+    <!-- this page specific scripts -->
+    <script src="~/Scripts/theme.js"></script>
+
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+
+    <!-- Latest compiled and minified Locales -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="brand" href="index.html">Data Analytics</a>
+
+            <ul class="nav pull-right">
+                <li class="hidden-phone">
+                    <input class="search" type="text" />
+                </li>
+
+
+                <li class="dropdown">
+                    <a href="signin" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
+                        Account...
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signin">log in</a></li>
+                        <li><a href="signout">Log out</a></li>
+                    </ul>
+                </li>
+                <li class="settings hidden-phone">
+                    <a href="signin" role="button">
+                        Log out
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- end navbar -->
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        <ul id="dashboard-menu">
+            <li>
+                <a href="index.html">
+                    <i class="icon-home"></i>
+                    <span>Summary</span>
+                </a>
+            </li>
+            <li class="active">
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <a href="#">
+                    <i class="icon-signal"></i>
+                    <span>Details</span>
+                </a>
+            </li>
+            <li>
+
+                <a href="portfolio">
+                    <i class="icon-group"></i>
+                    <span>Portfolio</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- end sidebar -->
+    <!-- main container -->
+    <div class="content">
+
+        <!-- settings changer -->
+        <div class="skins-nav">
+            <a href="#" class="skin first_nav selected">
+                <span class="icon"></span><span class="text">Default</span>
+            </a>
+            <a href="#" class="skin second_nav" data-file="css/skins/dark.css">
+                <span class="icon"></span><span class="text">Dark skin</span>
+            </a>
+        </div>
+
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="user-profile">
+                <!-- header -->
+                <div class="row-fluid header">
+                    <div class="span8">
+                        <img src="~/Content/img/contact-profile.png" class="avatar img-circle" />
+                        <h3 class="name">Alejandra Galván Castillo</h3>
+                        <span class="area">Graphic Designer</span>
+                    </div>
+                </div>
+
+                <div class="row-fluid profile">
+                    <!-- bio, new note & orders column -->
+                    <div class="span9 bio">
+                        <div class="profile-box">
+
+
+                            <h6 id="portfolio_name">New Portfolio</h6>
+                            <br />
+
+
+
+                            <div class="table_row">
+                                <div class="search_bar" style="display:block">
+                                    <input type="text" class="form-control" placeholder="symbol" id="input_find" />
+                                </div>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-search" id="add_btn" style="margin-left: 3px">add symbol</button>
+                                </span>
+                                <button class="btn btn-search save_portfolio_btn" id="save_portfolio" style="margin-left: 3px">save portfolio</button>
+                            </div>
+
+
+                            <div class="col-md-4 col-md-offset-2 demo datePickerStart">
+                                <label>choose date: </label>
+                                <input type="text" id="singleDate" class="timeinput">
+                                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose time range：</label>
+                                <input type="text" id="dateRangeStart" class="timeinput">
+                                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+                                <input type="text" id="dateRangeEnd" class="timeinput">
+                                <i class="glyphicon glyphicon-calendar  fa-calendar"></i>
+                            </div>
+
+                            <!-- echart -->
+                            <div id="echart" style="height: 100%"></div>
+
+                            <!-- recent orders table -->
+                            <table data-toggle="table" data-pagination="true" data-search="true" id="symbols_table"></table>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end main container -->
+        <!-- Modal for save portfolio name-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Please Input Portfolio Name</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input class="portfolio_input" type="text" placeholder="portfolio name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="portfolio_name_save">Save Portfolio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="~/Scripts/Util/Detail.js"></script>
+</body>

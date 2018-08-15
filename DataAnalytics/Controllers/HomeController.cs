@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace DataAnalytics.Controllers
 {
@@ -29,7 +30,7 @@ namespace DataAnalytics.Controllers
                 Session["login"] = "login";
                 Session["username"] = username;
                 Session["password"] = password;
-                return RedirectToAction("portfolio");
+                return RedirectToAction("Portfolio");
             } else {
                 ViewBag.errmsg = "User name not exist or password not match";
                 return View("signin");
@@ -80,7 +81,7 @@ namespace DataAnalytics.Controllers
             if (Session["username"] != null)
             {
                 var result = DataAnalytics.Utils.PortfolioUtil._readPortfolioDetail(item);
-                return Json(new { data = result});
+                return Json(new { data = result });
             }
             else
             {
@@ -154,11 +155,6 @@ namespace DataAnalytics.Controllers
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
             return View("PortfolioDetail");
-        }
-        [HttpGet]
-        public ViewResult _Index()
-        {
-            return View();
         }
     }
 

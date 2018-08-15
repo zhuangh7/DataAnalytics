@@ -10,24 +10,60 @@
 /*
  * judge if sign in 
  */
+var symbolList = [];
+var portfolio = window.currentPortfolio;
+//save temp symbol add by user
+var tempSymbol = [];
+$(document).ready(function () {
+    //show portfolio name
+    if (portfolio.portfolioname) {
+        $("#portfolio_name").text(portfolio.portfolioname);
+    }
+    
+    //load symbol list
+    readSymbols();
 
+    var summaryList = [];
+    //load portfolio's symbol
+    for (var i = 0; i < portfolio.symbols.length ; i++) {
+        var summmary = readSummary(portfolio.symbols[i]);
+        summaryList.push(summary);
+    }
+
+    $('#symbols_table').bootstrapTable({
+        columns: [{
+            field: 'symbol',
+            title: 'Symbol Name'
+        }, {
+            field: 'open',
+            title: 'Open Price'
+        }, {
+            field: 'close',
+            title: 'Close Price'
+        }, {
+            field: 'high',
+            title: 'High Price'
+        }, {
+            field: 'low',
+            title: 'Low Price'
+        }
+        ],
+        data: summaryList
+    });
+});
 function readSummary(symbol) {
-    var form = new FormData();
-    form.append("summary", symbol);
-
     $.ajax({
         type: "POST",
         url: "/home/readSummary",
         dataType: "json",
-        "contentType": false,
-        "mimeType": "multipart/form-data",
-        "data": form,
+        data: symbol,
         success: function (result) {
             console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which contain a summary object
             if (result.errmsg != null) {
                 alert('readDataError');
             } else {
                 //get data from result.data
+                return result.data;
             }
         },
         error: function (error) {
@@ -50,6 +86,7 @@ function readSymbols() {
                 if (result.data) {
                     //save successfully
                     console.log(result.data);
+                    symbolList = result.data;
                 } else {
                     //fail to save
                     alert('error when read symbols');
@@ -131,29 +168,8 @@ function readPortfolioDetail(_from, _to, _split, _symbols) {
 }
 
 
-var symbolList = ["hi", "nice", "well done", "haha"];
-$(document).ready(function () {
-    //load symbol list
-    //TODO
-    //symbolList=funtion()
 
 
-    //load portfolio's item
-    /* $('#portfolioTable').DataTable({
-         "processing": true,
-         "searching": true,
-         //"serverSide": true,
-         "ajax": {
-             "url": "#",
-         },
-         "columns": [
-             { "data": "open" },
-             { "data": "close" },
-             { "data": "high" },
-             { "data": "low" }
-         ]
-     });*/
-});
 function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);
@@ -166,7 +182,6 @@ function getQueryString(name) {
 // find symbol
 //show symbol list
 $(function () {
-    //var availableTags = ["标缝路","诚信路","公诚路","万诚路","何寇路","何潘路","何新路","栎西路","房西路","文化东路","桃源东路","石家东路"];
     $("#input_find").autocomplete({
         source:
                 function (request, response) {
@@ -184,274 +199,56 @@ $(function () {
 //add symbol btn 
 $("#add_btn").click(
     function () {
-        //call 
+        var flag=false;
+        //validate it's a valid symbol
+        for (var i = 0; i < symbolList.length ; i++) {
+            if (symbolList[i] == $("#input_find").val()) {
+                flag = true;
+            }
+        }
+        if (flag == false) {
+            alert("Please choose again, because this symbol not exits!");
+            $("#input_find").val('');
+            return;
+        }
+       ///and this symbol can't be same with exits symbol
+        for (var i = 0; i < portfolio.symbol.length ; i++) {
+            if (portfolio.symbol[i] == $("#input_find").val()) {
+                alert("Sorry, this symbol already exits!");
+                return;
+            }
+        }
+        for (var i = 0; i < tempSymbol.length ; i++) {
+            if (tempSymbol[i] == $("#input_find").val()) {
+                alert("Sorry, this symbol already exits!");
+                return;
+            }
+        }
+        //add symbol to portfolio
+        portfolio.symbol.push($("#input_find").val());
+
+        //echart function here
     }
 )
 
 //save portfolio
-$("#save_portfolio").click(
+$("#save_portfolio").click(    
     function () {
-        $("#myModal").modal("show");
+        if (!portfolio.portfolioname) {
+            $("#myModal").modal("show");
+        } else {
+            saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+            $("#portfolio_name").text(portfolio.portfolioname);
+        }
     }
-
 );
 
 //save portfolio name
 $("#portfolio_name_save").click(
-    function () {
-        $.ajax({
-            type: 'Post',
-            url: "#",
-            data: $("#portfolio_input").value,
-            error: function (msg) {
-                alert("Sorry, please try again!");
-            },
-            success: function (data) {
-                // populate page, add this portfolio
-
-            }
-        });
-    }
+      function(){
+          saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+      }
 );
-
-//echarts function start here
-/*$(document).ready(
-    function () {
-        var dom = document.getElementById("echart");
-        var myChart = echarts.init(dom);
-        var app = {};
-        option = null;
-
-        function splitData(rawData) {
-            var categoryData = [];
-            var values = [];
-            var volumns = [];
-            var close = [];
-            for (var i = 0; i < rawData.length; i++) {
-                categoryData.push(rawData[i].splice(0, 1)[0]);
-                values.push(rawData[i]);
-                volumns.push(rawData[i][4]);
-                close.push(rawData[i][1])
-            }
-            return {
-                categoryData: categoryData,
-                values: values,
-                volumns: volumns,
-                close: close
-            };
-        }
-
-        function calculateMA(dayCount, data) {
-            var result = [];
-            for (var i = 0, len = data.values.length; i < len; i++) {
-                if (i < dayCount) {
-                    result.push('-');
-                    continue;
-                }
-                var sum = 0;
-                for (var j = 0; j < dayCount; j++) {
-                    sum += data.values[i - j][1];
-                }
-                result.push(+(sum / dayCount).toFixed(3));
-            }
-            return result;
-        }
-
-        $.ajax({
-            type: 'get',
-            url: "stock-DJI.json",
-            dataType: "jsonp",
-            success: function (rawdata) {
-                var data = splitData(rawData);
-
-                myChart.setOption(option = {
-                    backgroundColor: '#eee',
-                    animation: false,
-                    legend: {
-                        bottom: 10,
-                        left: 'center',
-                        data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']
-                    },
-
-                    axisPointer: {
-                        link: { xAxisIndex: 'all' },
-                        label: {
-                            backgroundColor: '#777'
-                        }
-                    },
-                    toolbox: {
-                        feature: {
-                            dataZoom: {
-                                yAxisIndex: false
-                            },
-                            brush: {
-                                type: ['lineX', 'clear']
-                            }
-                        }
-                    },
-                    brush: {
-                        xAxisIndex: 'all',
-                        brushLink: 'all',
-                        outOfBrush: {
-                            colorAlpha: 0.1
-                        }
-                    },
-                    grid: [
-                        {
-                            left: '10%',
-                            right: '8%',
-                            height: '50%'
-                        },
-                        {
-                            left: '10%',
-                            right: '8%',
-                            bottom: '20%',
-                            height: '15%'
-                        }
-                    ],
-                    xAxis: [
-                        {
-                            type: 'category',
-                            data: data.categoryData,
-                            scale: true,
-                            boundaryGap: false,
-                            axisLine: { onZero: false },
-                            splitLine: { show: false },
-                            splitNumber: 20,
-                            min: 'dataMin',
-                            max: 'dataMax',
-                            axisPointer: {
-                                z: 100
-                            }
-                        },
-                        {
-                            type: 'category',
-                            gridIndex: 1,
-                            data: data.categoryData,
-                            scale: true,
-                            boundaryGap: false,
-                            axisLine: { onZero: false },
-                            axisTick: { show: false },
-                            splitLine: { show: false },
-                            axisLabel: { show: false },
-                            splitNumber: 20,
-                            min: 'dataMin',
-                            max: 'dataMax',
-                            axisPointer: {
-                                label: {
-                                    formatter: function (params) {
-                                        var seriesValue = (params.seriesData[0] || {}).value;
-                                        return params.value
-                                            + (seriesValue != null
-                                                ? '\n' + echarts.format.addCommas(seriesValue)
-                                                : ''
-                                            );
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    yAxis: [
-                        {
-                            scale: true,
-                            splitArea: {
-                                show: true
-                            }
-                        },
-                        {
-                            scale: true,
-                            gridIndex: 1,
-                            splitNumber: 2,
-                            axisLabel: { show: false },
-                            axisLine: { show: false },
-                            axisTick: { show: false },
-                            splitLine: { show: false }
-                        }
-                    ],
-                    dataZoom: [
-                        {
-                            type: 'inside',
-                            xAxisIndex: [0, 1],
-                            start: 98,
-                            end: 100
-                        },
-                        {
-                            show: true,
-                            xAxisIndex: [0, 1],
-                            type: 'slider',
-                            top: '85%',
-                            start: 98,
-                            end: 100
-                        }
-                    ],
-                    series: [
-                        {
-                            name: 'Dow-Jones index',
-                            type: 'candlestick',
-                            data: data.values,
-                            itemStyle: {
-                                normal: {
-                                    color: '#06B800',
-                                    color0: '#FA0000',
-                                    borderColor: null,
-                                    borderColor0: null
-                                },
-                                encode: { tooltip: [1, 2] }
-                            },
-                        },
-
-                        {
-                            // name: "close",
-                            type: 'line',
-                            data: data.close,
-                            smooth: true,
-                            lineStyle: {
-                                normal: { opacity: 0.5 }
-                            },
-                            tooltip: { show: false }
-
-
-                        },
-
-                        {
-                            name: 'Volumn',
-                            type: 'bar',
-                            xAxisIndex: 1,
-                            yAxisIndex: 1,
-                            data: data.volumns
-                        }
-                    ],
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross'
-                        },
-                        backgroundColor: 'rgba(245, 245, 245, 0.8)',
-                        borderWidth: 1,
-                        borderColor: '#ccc',
-                        padding: 10,
-                        textStyle: {
-                            color: '#000'
-                        },
-                        position: function (pos, params, el, elRect, size) {
-                            var obj = { top: 10 };
-                            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-                            return obj;
-                        },
-                        extraCssText: 'width: 170px'
-
-                    },
-                }, true);
-
-            }
-
-        }
-            );
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
-    }
-)*/
 
 //time picker
 
@@ -459,7 +256,6 @@ $("#portfolio_name_save").click(
 var beginTimeTake;
 var endTimeTake;
 
-//date range
 $('#dateRangeStart').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -480,19 +276,19 @@ function (start, end, label) {
     } else {
         this.element.val(this.startDate.format(this.locale.format));
         //validate
-        if (!endTimeTake) {
+        if (endTimeTake) {
             if (endTimeTake < beginTimeTake) {
                 alert("Please input a valid end date!");
                 this.element.val('');
+                return;
             }
-            //TODO
-
-
-
+           /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
+            portfolio.from = beginTimeTake;
+            portfolio.to = endTimeTake;
+            //echart function here
         }
     }
 });
-//
 $('#dateRangeEnd').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -514,17 +310,20 @@ function (start, end, label) {
     } else {
         this.element.val(this.endDate.format(this.locale.format));
         //validate
-        if (!beginTimeTake) {
+        if (beginTimeTake) {
             if (endTimeTake < beginTimeTake) {
                 alert("Please input a valid end date!");
                 this.element.val('');
+                return;
             }
             //TODO 
+            portfolio.from = beginTimeTake;
+            portfolio.to = endTimeTake;
+            //echart function here
         }
     }
 });
 
-//single
 $('#singleDate').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -544,6 +343,8 @@ function (start, end, label) {
         this.element.val('');
     } else {
         this.element.val(this.endDate.format(this.locale.format));
+        //TODO 
+        portfolio.from = beginTimeTake;
+        //echart function here
     }
 });
-
