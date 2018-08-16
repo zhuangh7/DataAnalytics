@@ -51,13 +51,14 @@ function askAllPortfolioObjects() {
             } else {
                 //put the data into datatable or store it in an global var I think.
                 //show
-                for (d in result.data) {
-                    portfolioList.push({
-                        portfolioname:d.portfolioname,
+                for (var i = 0; i < result.data.length; i++) {
+                    var d = result.data[i];
+                    portfolioList.push({                     
+                        portfolioname: d.portfolioname,
                         from: d.from,
                         to: d.to,
                         portfolioID: d.portfolioID,
-                        portfolioLink: "<a href= /home/detail?portfolioId=" + d.portfolioID + ">" + d.portfolioname + "</a>"
+                        portfolioLink: "<a href= /home/detail?portfolioId=" + d.portfolioID + ">" + d.portfolioname+"( "+d.symbols.length +"symbols )</a>"
                     });
                 }
                 refreshDataTable();
