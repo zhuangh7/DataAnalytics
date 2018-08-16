@@ -26,33 +26,33 @@ $(document).ready(function () {
     readSymbols();
 
     //load portfolio's symbol
-   /* for (var i = 0; i < portfolio.symbols.length; i++) {
-        readSummary(portfolio.symbols[i]);
-    }*/
+    /* for (var i = 0; i < portfolio.symbols.length; i++) {
+         readSummary(portfolio.symbols[i]);
+     }*/
     initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
 });
 function refreshDataTable(basesymbolData) {
     $('#symbols_table').DataTable({
         columns: [
             {
-                title:'Name'
+                title: 'Name'
             }, {
-                title:'Date'
+                title: 'Date'
             },
             {
-                title:'Time'
+                title: 'Time'
             },
             {
-            title: 'Open'
-        }, {
-            title: 'High'
-        }, {
-            title: 'Low'
-        }, {
-            title: 'Close'
-        }, {
-            title: 'Volume'
-        }
+                title: 'Open'
+            }, {
+                title: 'Close'
+            }, {
+                title: 'Low'
+            }, {
+                title: 'High'
+            }, {
+                title: 'Volume'
+            }
         ],
         data: basesymbolData
     });
@@ -94,6 +94,25 @@ function readSymbols() {
                     //save successfully
                     console.log(result.data);
                     symbolList = result.data;
+
+                    // find symbol
+                    //show symbol list
+                    $(function () {
+                        $("#input_find").autocomplete({
+                            source:
+                            function (request, response) {
+                                var results = $.ui.autocomplete.filter(symbolList, request.term);
+                                response(results.slice(0, 10));//只显示自动提示的前十条数据
+                            },
+                            messages: {
+                                noResults: '',
+                                results: function () { }
+                            },
+                        });
+
+                    });
+
+
                 } else {
                     //fail to save
                     alert('error when read symbols');
@@ -107,12 +126,12 @@ function readSymbols() {
     return false;
 }
 
-function saveCurrentPortfolio(_from, _to, _split,_name, _symbols) {
+function saveCurrentPortfolio(_from, _to, _split, _name, _symbols) {
     var samplePersonObject = {
         from: _from,
         to: _to,
         split: _split,
-        portfolioname:_name,
+        portfolioname: _name,
         symbols: _symbols//["symbol_1", "symbol_2"]
     };
 
@@ -205,22 +224,7 @@ function getQueryString(name) {
     return null;
 }
 
-// find symbol
-//show symbol list
-$(function () {
-    $("#input_find").autocomplete({
-        source:
-            function (request, response) {
-                var results = $.ui.autocomplete.filter(symbolList, request.term);
-                response(results.slice(0, 10));//只显示自动提示的前十条数据
-            },
-        messages: {
-            noResults: '',
-            results: function () { }
-        },
-    });
 
-});
 
 //add symbol btn 
 $("#add_btn").click(
@@ -260,25 +264,21 @@ $("#add_btn").click(
 //save portfolio
 $("#save_portfolio").click(
     function () {
-            $("#myModal").modal("show");       
+        $("#myModal").modal("show");
 
     }
 );
 
 //save portfolio name
 $("#portfolio_name_save").click(
-    function () {  
+    function () {
         $(this).attr("disabled", false);
-        console.log("hi"+portfolio.portfolioname);
+        console.log("hi" + portfolio.portfolioname);
         saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, $("#portfolio_input").val(), portfolio.symbols);
     }
 );
 
 //time picker
-
-//daterangePicker
-var beginTimeTake;
-var endTimeTake;
 var singleTimeTake;
 
 $('#dateRangeStart').daterangepicker({
@@ -295,28 +295,39 @@ $('#dateRangeStart').daterangepicker({
     }
 },
     function (start, end, label) {
-        beginTimeTake = this.startDate;
+
         if (!this.startDate) {
             this.element.val('');
         } else {
             this.element.val(this.startDate.format(this.locale.format));
+            portfolio.from = MonentObjectFormart(this.startDate.format(this.locale.format));
             //validate
-            if (endTimeTake) {
-                if (endTimeTake < beginTimeTake) {
-                    alert("Please input a valid end date!");
-                    this.element.val('');
-                    return;
-                }
-                /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
-
-                portfolio.from = MonentObjectFormart(this.startDate.format(this.locale.format));
-                portfolio.to = MonentObjectFormart(this.endDate.format(this.locale.format));
-                //echart function here
-
-                initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
-            }
         }
     });
+function onClickUseThisTimeRangeButton() {
+    if (portfolio.from) {
+        if (portfolio.to < portfolio.from) {
+            alert("Please input a valid end date!");
+            this.element.val('');
+            return;
+        }
+        if ($('#singleDate').val().length != 0) {
+            alert("Please choose a single date or date change, not both!");
+            return;
+        }
+        if (portfolio.to) {
+            if (portfolio.to < portfolio.from) {
+                alert("Please input a valid end date!");
+                this.element.val('');
+                return;
+            }
+            /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
+            //echart function here
+        }
+        //echart function here
+        initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+    }
+}
 $('#dateRangeEnd').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -331,30 +342,15 @@ $('#dateRangeEnd').daterangepicker({
     }
 },
     function (start, end, label) {
-        endTimeTake = this.endDate;
         if (!this.endDate) {
             this.element.val('');
             alert("Please input a end date!");
         } else {
             this.element.val(this.endDate.format(this.locale.format));
-            //validate
-            if (beginTimeTake) {
-                if (endTimeTake < beginTimeTake) {
-                    alert("Please input a valid end date!");
-                    this.element.val('');
-                    return;
-                }
-                if ($('#singleDate').val().length != 0) {
-                    alert("Please choose a single date or date change, not both!");
-                    return;
-                }
-                //TODO 
-                portfolio.from = MonentObjectFormart(beginTimeTake.format(this.locale.format));
-                portfolio.to = MonentObjectFormart(endTimeTake.format(this.locale.format));
-                //echart function here
 
-                initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
-            }
+            portfolio.to = MonentObjectFormart(this.endDate.format(this.locale.format));
+            //validate
+
         }
     });
 
@@ -373,27 +369,24 @@ $('#singleDate').daterangepicker({
     }
 
 },
-function (start, end, label) {
-    singleTimeTake = this.endDate;
+    function (start, end, label) {
+        singleTimeTake = this.endDate;
         if (!this.endDate) {
             this.element.val('');
         } else {
 
-            if ($('#dateRangeEnd').val().length != 0 || $('#dateRangeStart').val().length!=0) {
-                alert("Please choose a single date or date change, not both!");
-                return;
-            }
-
+            $('#dateRangeEnd').val('');
+            $('#dateRangeStart').val('');
             this.element.val(this.endDate.format(this.locale.format));
             //TODO 
             var date = this.endDate.format(this.locale.format);
-            
-            portfolio.from = MonentObjectFormart(date);
 
+            portfolio.from = MonentObjectFormart(date);
+            portfolio.to = "";
             initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
             //echart function here
         }
-});
+    });
 function MonentObjectFormart(date) {
     var s = "";
     s = date.substring(0, 4);
@@ -503,7 +496,7 @@ function addEchartSymbol(data) {
         if (i == 0) {
             continue;
         }
-        if (data[i].length==0) {
+        if (data[i].length == 0) {
             continue;
         }
         datao.push(splitData(data[i]));
@@ -517,7 +510,7 @@ function addEchartSymbol(data) {
         }
         addmodel.data = datao[i].close;
         if (!fname) {
-            addmodel.name = othername+' ';
+            addmodel.name = othername + ' ';
             fname = true;
         }
         option.series.push(addmodel)
@@ -533,7 +526,7 @@ function addEchartSymbol_2(data) {
     var option = myChart1.getOption();
     var fname = false;
     for (var i in data) {
-        var factor = parseFloat(initdata[0][initdata[0].length - 1][4]) / parseFloat(datao.close[datao.close.length-1]);
+        var factor = parseFloat(initdata[0][initdata[0].length - 1][4]) / parseFloat(datao.close[datao.close.length - 1]);
         var othername = datao.symbolname[0] + '*' + factor.toFixed(2);
         for (var ii in datao.close) {
             datao.close[ii] = (parseFloat(datao.close[ii]) * parseFloat(factor)).toFixed(2);
@@ -746,7 +739,7 @@ $(document).ready(function () {
     var covershow = document.getElementById("coverShow");
     cover.style.display = 'block';
     covershow.style.display = 'block';
-    timeoutID = window.setTimeout(function 
+    timeoutID = window.setTimeout(function
     () {
         cover.style.display = 'none';
         covershow.style.display = 'none';
