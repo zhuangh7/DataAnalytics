@@ -33,30 +33,22 @@ $(document).ready(function () {
     initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbol);
 });
 function refreshDataTable() {
-    $('#symbols_table').bootstrapTable({
-        sortable: true,
-        striped: true,                      //是否显示行间隔色
-        sortOrder: "asc",                   //排序方式
-        search: true,
+    $('#symbols_table').DataTable({
         columns: [
             {
-                checkbox: true,  
-                visible: true                  //是否显示复选框  
-            },
-            {
-            field: 'symbol',
+            data: 'symbol',
             title: 'Symbol Name'
         }, {
-            field: 'open',
+            data: 'open',
             title: 'Open Price'
         }, {
-            field: 'close',
+            data: 'close',
             title: 'Close Price'
         }, {
-            field: 'high',
+            data: 'high',
             title: 'High Price'
         }, {
-            field: 'low',
+            data: 'low',
             title: 'Low Price'
         }
         ],
