@@ -90,26 +90,19 @@ $(function () {
     });
 
     function readSummary(symbol) {
-        //var form = new FormData();
-        //form.append("summary", symbol);
-
         $.ajax({
             type: "POST",
             url: "/home/readSummary",
             dataType: "json",
-            "contentType": false,
-            "mimeType": "multipart/form-data",
-            "data": {
-                summary: symbol
-            },
+            data: { summary: symbol },
             success: function (result) {
                 console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which contain a summary object
                 if (result.errmsg != null) {
                     alert('readDataError');
                 } else {
                     //get data from result.data
-                    console.log("readSummary:" + result.data);
-                    return result.data;
+                    summaryList.push(result.data);
+                    refreshDataTable();
                 }
             },
             error: function (error) {
@@ -118,6 +111,7 @@ $(function () {
         });
         return false;
     }
+
 
     function readSymbols() {
         $.ajax({

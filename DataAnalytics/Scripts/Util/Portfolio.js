@@ -35,14 +35,7 @@ function refreshDataTable() {
             title:'to',
         }
         ],
-        //data: portfolioList
-        data: [
-            {
-                portfolioLink: "<a href= /home/detail?portfolioId=1>768</a>",
-                from: 12,
-                to:154
-            }
-        ]
+        data: portfolioList
     });
 }
 function askAllPortfolioObjects() {
