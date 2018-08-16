@@ -10,6 +10,6 @@ namespace DataAnalytics.Utils
         public static string junwen = @"server=.\sqlexpress; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true";
         public static string Pan = @"server=.\sqlexpress; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true";
         public static string Xiuyun = "server= Lenovo-PC; database=DataAnalytics;integrated security=true;MultipleActiveResultSets = true";
-        public static string connectionStr = junwen;
+        public static string connectionStr = Xiuyun;
     }
 }

@@ -16,7 +16,7 @@
     <title>Data Analytics - User @ViewBag.Title</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>-->
@@ -39,10 +39,11 @@
     <!-- this page specific styles -->
     <link rel="stylesheet" href="~/Content/compiled/user-profile.css" type="text/css" media="screen" />
 
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
-    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/echarts.min.js"></script>
+ 
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -50,7 +51,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-
+    
     <!-- navbar -->
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
@@ -122,7 +123,7 @@
                 <!-- header -->
                 <div class="row-fluid header">
                     <div class="span8">
-                        <img src="img/contact-profile.png" class="avatar img-circle" />
+                        <img src="~/Content/img/contact-profile.png" class="avatar img-circle" />
                         <h3 class="name" id="username">@ViewBag.username</h3>
                     </div>
                 </div>

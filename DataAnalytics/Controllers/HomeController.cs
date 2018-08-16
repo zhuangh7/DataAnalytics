@@ -143,6 +143,10 @@ namespace DataAnalytics.Controllers
         {
             //the web page call like this one should judge ViewBag.username to determine if redirect to signin
             portfolio a = PortfolioUtil._getPortfolio(portfolioId);
+            if (a.from == null) 
+            {
+                return RedirectToAction("Index");
+            }
             ViewBag.portfolio = a;
             ViewBag.username = Session["username"];
             ViewBag.password = Session["password"];
