@@ -71,7 +71,7 @@ namespace DataAnalytics.Utils
                 }
                 return new { errmsg = "It has not been completed" };
             }
-            return new { errmsg = "login time out" };
+         
         }
 
         private static List<Array> getMData(string[] symbols, string from)
@@ -208,7 +208,6 @@ namespace DataAnalytics.Utils
                 var cmd_getSymbols = new SqlCommand("get_Portfolio_Items", conn);
                 cmd_getSymbols.CommandType = CommandType.StoredProcedure;
                 cmd_getSymbols.Parameters.AddWithValue("@PortID", portfolio.portfolioID);
-                conn.Open();
                 SqlDataReader resultReader_symbols = cmd_getSymbols.ExecuteReader();
                 List<string> symbols = new List<string>();
                 while (resultReader_symbols.Read())

@@ -86,8 +86,6 @@ body {
       letter-spacing: 0px;
       font-size: 14px; }
     .login-wrapper .box .action {
-      border-top: 1px solid #d3d7db;
-      background-color: #f4f5f6;
       margin: 0px -36px;
       position: relative;
       top: 30px;
@@ -122,7 +120,12 @@ body {
         text-decoration: none;
         color: #000;
         border-bottom-color: #000; }
-
+.header-log{
+            font-size:40px;
+            text-align:center;
+            vertical-align:central;
+            height:100px;
+    }
 /* responsive */
 @media (max-width: 767px) {
   .login-wrapper .box {

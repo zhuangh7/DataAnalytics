@@ -50,6 +50,7 @@ input.search{
 	position: relative;
 	border-radius: 4px;
 	top: 9px;
+    height: 30px;
 	padding: 3px 6px;
 	color: #000;
 	font-size: 13px;
@@ -257,6 +258,7 @@ input.search{
 	padding-top: 5.8em;	
 }
 #dashboard-menu {
+    margin-top: -40px;
 	list-style: none;
 	padding-right: 15px;
 	padding-left: 15px;
