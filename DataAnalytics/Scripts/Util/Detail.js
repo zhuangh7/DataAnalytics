@@ -451,15 +451,39 @@ function splitData(rawData) {
     var volumns = [];
     var close = [];
     var symbolname = [];
+    var date = []; //////
+    var time = [];
+    var count = 10;
     for (var i = 0; i < rawData.length; i++) {
         symbolname.push(rawData[i].splice(0, 1)[0]);
-        categoryData.push(rawData[i].splice(0, 2)[1]);
+        var date = rawData[i].splice(0, 1)[0];
+        // date.push();////
+
+
+        var cate = String(rawData[i].splice(0, 1)[0]);
+        if (cate.length = 3) {
+            cate = cate.substr(0, 1) + ":" + cate.substr(1, 2);
+        }else if (cate.length = 4) {
+            cate = cate.substr(0, 2) + ":" + cate.substr(2, 2);
+        }
+        var category;
+        if (--count == 0) {
+            count = 10;
+            //do 
+            category = date + " " + cate;
+        }
+        else {
+            category = cate;
+        }
+        //time.push(cate);
+        categoryData.push(category)
         values.push(rawData[i]);
         volumns.push(rawData[i][4]);
         close.push(rawData[i][1]);
 
     }
     return {
+        date: date,//////
         symbolname: symbolname,
         categoryData: categoryData,
         values: values,
@@ -733,15 +757,15 @@ function addData(symbol) {
 //        //echart function here
 //    }
 //});
-$(document).ready(function () {
-    var timeoutID;
-    var cover = document.getElementById("cover");
-    var covershow = document.getElementById("coverShow");
-    cover.style.display = 'block';
-    covershow.style.display = 'block';
-    timeoutID = window.setTimeout(function
-    () {
-        cover.style.display = 'none';
-        covershow.style.display = 'none';
-    }, 3000);
-});
+//$(document).ready(function () {
+//    var timeoutID;
+//    var cover = document.getElementById("cover");
+//    var covershow = document.getElementById("coverShow");
+//    cover.style.display = 'block';
+//    covershow.style.display = 'block';
+//    timeoutID = window.setTimeout(function
+//    () {
+//        cover.style.display = 'none';
+//        covershow.style.display = 'none';
+//    }, 3000);
+//});
