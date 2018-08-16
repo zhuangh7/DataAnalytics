@@ -54,39 +54,22 @@ $(function () {
 
     });
 
+    function refreshTable(summary) {
+        console.log('here');
+        document.getElementById("symbolName").innerText = summary.symbol==null?'null':summary.symbol;
+        document.getElementById("close").innerText = summary.close;
+        document.getElementById("open").innerText = summary.open;
+        document.getElementById("high").innerText = summary.high;
+        document.getElementById("low").innerText = summary.low;
+        document.getElementById("earnings").innerText = summary.earnings;
+        document.getElementById("dividents").innerText = summary.dividends;
+        location.href = "/home/detail?baseSymbol=" + inputSymbol;
+    }
     $("input[name='Compare']").click(function () {
         var inputSymbol = $("#input_find").val();
         console.log(inputSymbol);
-        var summary = readSummary(inputSymbol);//call API
+        readSummary(inputSymbol);//call API
 
-        $("#symbol").val = summary.symbol;
-        $("#close").val = summary.close;
-        $("#open").val = summary.open;
-        $("#high").val = summary.high;
-        $("#low").val = summary.low;
-        $("#earnings").val = summary.earnings;
-        $("#dividents").val = summary.dividents;
-        location.href = "/home/detail?baseSymbol=" + inputSymbol;
-    });
-    $("input[name='display']").click(function () {
-        var inputSymbol = $("#input_find").val();
-        console.log(inputSymbol);
-        var symbolName = document.getElementById("symbolName");
-        symbolName.innerText = inputSymbol;
-        var close = document.getElementById("close");
-        close.innerText = "23";
-        var open = document.getElementById("open");
-        open.innerText = "24";
-        var high = document.getElementById("high");
-        high.innerText = "25";
-        var high = document.getElementById("high");
-        high.innerText = "26";
-        var low = document.getElementById("low");
-        low.innerText = "27";
-        var earnings = document.getElementById("earnings");
-        earnings.innerText = "28";
-        var dividents = document.getElementById("dividents");
-        dividents.innerText = "29";
     });
 
     function readSummary(symbol) {
@@ -101,8 +84,7 @@ $(function () {
                     alert('readDataError');
                 } else {
                     //get data from result.data
-                    summaryList.push(result.data);
-                    refreshDataTable();
+                    refreshTable(result.data);
                 }
             },
             error: function (error) {

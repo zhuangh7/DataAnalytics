@@ -1,4 +1,13 @@
-﻿
+﻿@{
+    ViewBag.Title = "Summary";
+    if (ViewBag.username == null && ViewBag.password == null)
+    {
+        <script>
+            alert("please sign in first");
+            location.href = "/";
+        </script>
+    }
+}
 <head>
     <title>Data Analytics - Summary</title>
 

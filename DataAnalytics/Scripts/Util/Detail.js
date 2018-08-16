@@ -105,11 +105,12 @@ function readSymbols() {
     return false;
 }
 
-function saveCurrentPortfolio(_from, _to, _split, _symbols) {
+function saveCurrentPortfolio(_from, _to, _split,_name, _symbols) {
     var samplePersonObject = {
         from: _from,
         to: _to,
         split: _split,
+        portfolioname:_name,
         symbols: _symbols//["symbol_1", "symbol_2"]
     };
 
@@ -128,11 +129,20 @@ function saveCurrentPortfolio(_from, _to, _split, _symbols) {
             } else {
                 if (result.data) {
                     //save successfully
+                    alert("save successfully");
+                    portfolio.portfolioname = $("#portfolio_input").val();
+                    $("#portfolio_input").text('');
+                    $("#portfolio_name").text(portfolio.portfolioname);
+                    $("#myModal").modal("hide");
+
+
                 } else {
                     //fail to save
                     alert('error when save portfolio, try again');
+                    $("#portfolio_name_save").attr("disabled", true);
                 }
             }
+
         },
         error: function (error) {
             alert("There was an error posting the data to the server: " + error.responseText);
@@ -158,6 +168,7 @@ function readPortfolioDetail(_from, _to, _split, _symbols, callback) {
         contentType: "application/json",
         data: jsonSerialized,
         success: function (result) {
+            console.log('this is get portfolio result')
             console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which is a object
             callback(result.data);
             if (result.errmsg != null) {
@@ -165,6 +176,8 @@ function readPortfolioDetail(_from, _to, _split, _symbols, callback) {
             } else {
                 //get data from result.data
             }
+
+
         },
         error: function (error) {
             alert("There was an error posting the data to the server: " + error.responseText);
@@ -240,19 +253,17 @@ $("#add_btn").click(
 //save portfolio
 $("#save_portfolio").click(
     function () {
-        if (!portfolio.portfolioname) {
-            $("#myModal").modal("show");
-        } else {
-            saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
-            $("#portfolio_name").text(portfolio.portfolioname);
-        }
+            $("#myModal").modal("show");       
+
     }
 );
 
 //save portfolio name
 $("#portfolio_name_save").click(
-    function () {
-        saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
+    function () {  
+        $(this).attr("disabled", false);
+        console.log("hi"+portfolio.portfolioname);
+        saveCurrentPortfolio(portfolio.from, portfolio.to, portfolio.split, $("#portfolio_input").val(), portfolio.symbols);
     }
 );
 
@@ -384,7 +395,6 @@ function MonentObjectFormart(m) {
 //echarts
 var dom = document.getElementById("container");//<div id="container" style="height: 100%"></div>
 var myChart1 = echarts.init(dom);
-readPortfolioDetail(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
 //var mychart2 = echarts.init(dom);
 // var app = {};
 
@@ -537,7 +547,7 @@ var option = {
         {
             type: 'inside',
             xAxisIndex: [0, 1],
-            start: 98,
+            start: 80,
             end: 100
         },
         {
@@ -601,7 +611,7 @@ function updateEchartBase(data) {
     if (!myChart1) {
         return;
     }
-    var data1 = splitData(data.obj[0]);
+    var data1 = splitData(data[0]);
     var option = myChart1.getOption();
     inimodel1.data = data1.values;
     inimodel2.data = data1.close;
@@ -615,8 +625,8 @@ function updateEchartBase(data) {
 function addEchartSymbol(data) {
     var option = myChart1.getOption();
     var datao = [];
-    for (var i = 1; i < length(data.obj); i++) {
-        datao.push(splitData(data.obj[i]));
+    for (var i = 1; i < length(data); i++) {
+        datao.push(splitData(data[i]));
         addmodel.data = datao[i].close;
         addmodel.name = datao[i].symbolname;
         option.series.push(addmodel.data)
@@ -627,8 +637,8 @@ function addEchartSymbol(data) {
 function addEchartSymbol_2(data) {
     var option = myChart1.getOption();
     var datao = [];
-    for (var i = 0; i < length(data.obj); i++) {
-        datao.push(splitData(data.obj[i]));
+    for (var i = 0; i < length(data); i++) {
+        datao.push(splitData(data[i]));
         addmodel.data = datao[i].close;
         option.series.push(addmodel.data)
     }
@@ -636,9 +646,6 @@ function addEchartSymbol_2(data) {
 }
 
 function initData(_from, _to, _split, _symbols) {
-    if (_symbols == null) {
-        alert('fkyou');
-    }
     readPortfolioDetail(_from, _to, _split, _symbols, function (data) {
         updateEchartBase(data);
         addEchartSymbol(data);
