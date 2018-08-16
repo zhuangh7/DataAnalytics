@@ -38,7 +38,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="brand" href="index.html" style="margin-top: 20px;margin-left: 30px; font-size: 40px;">Data Analytics</a>
+            <a class="brand" href="#" style="margin-top: 5px;margin-left: 30px; font-size: 40px;">Data Analytics</a>
 
             <ul class="nav pull-right">
                 <li class="hidden-phone">
@@ -53,7 +53,7 @@
 
                 <li class="dropdown">
                     <a href="Signin" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
-                        Account...
+                        @ViewBag.username
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -70,7 +70,7 @@
         <ul id="dashboard-menu">
 
             <li>
-                <a href="#">
+                <a href="Portfolio">
                     <i class="icon-group"></i>
                     <span>Portfolio</span>
                 </a>
@@ -80,7 +80,7 @@
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
                 </div>
-                <a href="Index">
+                <a href="#">
                     <i class="icon-home"></i>
                     <span>Summary</span>
                 </a>
@@ -97,10 +97,10 @@
         <!--set search-->
         <div class="container-fluid">
             <div style="margin: 40px 100px -10px 20px;">
-                <input type="text" placeholder="input a symbol" name="inputSymbol" style="margin-top:10px;" id="input_find" />
+                <input type="text" placeholder="input a symbol" name="inputSymbol" style="margin-top:10px;height:30px;" id="input_find" />
                 <input class="btn-glow primary login" style="margin-left:20px;width:50px;" type="button" name="apply" value="apply" />
 
-                <a style="margin-left:20px" href="https://finance.yahoo.com/">more information about this symbol</a>
+                <a style="margin-left:20px"onclick="goYahoo()">more information about this symbol</a>
             </div>
         </div>
 
@@ -109,7 +109,7 @@
 
 
             <div id="pad-wrapper" class="summary">
-                <table border="3" width="400" height="250" cellpadding="10" bordercolor="#305D7A">
+                <table border="3" width="400" height="250" cellpadding="10" bordercolor="#c4cdd8" box-shadow=“10px 10px 5px #c4cdd8” >
                     <tr>
                         <td colspan="2"><label id="symbolName">apple</label></td>
                     </tr>
@@ -127,11 +127,6 @@
                     </tr>
                 </table>
                 <input class="btn-glow primary login" style="margin-top:50px;display:inline;" type="button" name="Compare" value="Compare" />
-
-
-
-
-
             </div>
             <div><br />From <a href="#" title="team " target="_blank">C# Team 1</a></div>
             <!-- end table sample -->
@@ -150,7 +145,11 @@
     <script src="~/Scripts/jquery.flot.stack.js"></script>
     <script src="~/Scripts/jquery.flot.resize.js"></script>
     <script src="~/Scripts/theme.js"></script>
-
-
     <script src="~/Scripts/Util/summary.js"></script>
+    <script  type="text/javascript">
+        function goYahoo() {
+            var symbol = $("#input_find").val();
+            location.href = "https://finance.yahoo.com/quote/" + symbol;
+        }
+    </script>
 </body>

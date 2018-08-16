@@ -159,10 +159,10 @@
     margin-top: 35px; }
 
 
-        .summary td {
-            font-size: 25px;
+.summary td {
+            font-size: 20px;
             font-family:sans-serif;
-            font-weight:100;
+            border:3px solid #c4cdd8;
         }
 .summary label {
     font-family: sans-serif;
@@ -170,7 +170,7 @@
     font-size: 20px;
 }
 .summary table {
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 5px 5px 5px #888888;
 }
 /* responsive */
 @media (max-width: 767px) {
