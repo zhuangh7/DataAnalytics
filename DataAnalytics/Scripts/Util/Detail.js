@@ -674,3 +674,15 @@ function addData(symbol) {
 //        //echart function here
 //    }
 //});
+$(document).ready(function () {
+    var timeoutID;
+    var cover = document.getElementById("cover");
+    var covershow = document.getElementById("coverShow");
+    cover.style.display = 'block';
+    covershow.style.display = 'block';
+    timeoutID = window.setTimeout(function 
+    () {
+        cover.style.display = 'none';
+        covershow.style.display = 'none';
+    }, 3000);
+});
