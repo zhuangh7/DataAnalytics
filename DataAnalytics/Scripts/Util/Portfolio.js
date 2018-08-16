@@ -14,8 +14,8 @@ var portfolioList = [];
 
 $(document).ready(
     function(){
-        askAllPortfolioObjects();
-        //refreshDataTable();
+        //askAllPortfolioObjects();
+        refreshDataTable();
 
     }
 
@@ -35,7 +35,14 @@ function refreshDataTable() {
             title:'to',
         }
         ],
-        data: portfolioList
+        //data: portfolioList
+        data: [
+            {
+                portfolioLink: "<a href= /home/detail?portfolioId=1>768</a>",
+                from: 12,
+                to:154
+            }
+        ]
     });
 }
 function askAllPortfolioObjects() {
@@ -109,24 +116,3 @@ function ShowPortFolio() {
 
 }
 
-//save portfio name
-$("#sumbit_btn").click(
-    function () {
-        if ($("#portfolio_input").value == null || $("#portfolio_input").value.length == 0) {
-            alert("please input a symbol name");
-            return;
-        }
-        $.ajax({
-            type: 'Post',
-            url: "#",
-            data: $("#portfolio_input").value,
-            error: function (msg) {
-                alert(msg);
-            },
-            success: function (data) {
-
-
-            }
-        });
-    }
-);
