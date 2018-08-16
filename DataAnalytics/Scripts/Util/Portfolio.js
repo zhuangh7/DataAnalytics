@@ -14,8 +14,7 @@ var portfolioList = [];
 
 $(document).ready(
     function(){
-        //askAllPortfolioObjects();
-        refreshDataTable();
+        askAllPortfolioObjects();
 
     }
 
@@ -35,14 +34,7 @@ function refreshDataTable() {
             title:'to',
         }
         ],
-        //data: portfolioList
-        data: [
-            {
-                portfolioLink: "<a href= /home/detail?portfolioId=1>768</a>",
-                from: 12,
-                to:154
-            }
-        ]
+        data: portfolioList
     });
 }
 function askAllPortfolioObjects() {
@@ -59,14 +51,15 @@ function askAllPortfolioObjects() {
             } else {
                 //put the data into datatable or store it in an global var I think.
                 //show
-                portfolioList.push({
-                    portfolioname: result.data.portfolioname,
-                    from: result.data.from,
-                    to: result.data.to,
-                    portfolioID: result.data.portfolioID,
-                    portfolioLink: "<a href= /home/detail?portfolioId=" + result.data.portfolioID + ">" + result.data.portfolioname + "</a>"
-                });
-
+                for (d in result.data) {
+                    portfolioList.push({
+                        portfolioname:d.portfolioname,
+                        from: d.from,
+                        to: d.to,
+                        portfolioID: d.portfolioID,
+                        portfolioLink: "<a href= /home/detail?portfolioId=" + d.portfolioID + ">" + d.portfolioname + "</a>"
+                    });
+                }
                 refreshDataTable();
 
             }

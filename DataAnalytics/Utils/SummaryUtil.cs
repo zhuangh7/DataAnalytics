@@ -50,7 +50,8 @@ namespace DataAnalytics.Utils
                 summary.volume = resultReader.GetValue(5).ToString();
                 summary.earnings = resultReader.GetValue(6).ToString();
                 summary.dividends = resultReader.GetValue(7).ToString();
-            } 
+            }
+            conn.Close();
             return summary;
         }
     }
