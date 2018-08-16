@@ -9,8 +9,6 @@
         </script>
     }
 }
-<h4>can get username : @ViewBag.username</h4>
-<h4>can get password : @ViewBag.password</h4>
 
 
 <!DOCTYPE html>
@@ -139,8 +137,7 @@
                 <div class="row-fluid header">
                     <div class="span8">
                         <img src="img/contact-profile.png" class="avatar img-circle" />
-                        <h3 class="name">Alejandra Galván Castillo</h3>
-                        <span class="area">Graphic Designer</span>
+                        <h3 class="name" id="username">@ViewBag.username</h3>
                     </div>
                 </div>
 
@@ -150,53 +147,14 @@
                         <div class="profile-box">
                             <h6>User Portfolio</h6>
                             <br />
-
                             <!-- recent orders table -->
                             <!-- recent orders table -->
-                            <table id="portfolios_table">
+                            <table id="portfolios_table" class="table">
                                 <thead>
 
                                 </thead>
                             </table>
 
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="span2">
-                                            Order ID
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Date
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Items
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>
-                                            Total amount
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- row -->
-                                    <tr class="first">
-                                        <td>
-                                            <div class="portfolio"><a id="portfolio_id1" href="detail?portfolioId=1">portfolio1</a></div>
-                                        </td>
-                                        <td>
-                                            Jan 03, 2014
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td>
-                                            $ 3,500.00
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
 
