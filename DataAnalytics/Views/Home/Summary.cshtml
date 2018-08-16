@@ -12,7 +12,7 @@
     <title>Data Analytics - Summary</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <!-- bootstrap -->
     <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
@@ -20,6 +20,7 @@
 
     <!-- libraries -->
 
+    <script src="~/Scripts/jquery-latest.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <link href="~/Content/lib/font-awesome.css" type="text/css" rel="stylesheet" />
 
@@ -33,7 +34,22 @@
     <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
     <link rel="stylesheet" href="~/Content/compiled/signin.css" type="text/css" media="screen" />
-
+    <!-- scripts -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- knob -->
+    <script src="~/Scripts/jquery.knob.js"></script>
+    <!-- flot charts -->
+    <script src="~/Scripts/jquery.flot.js"></script>
+    <script src="~/Scripts/jquery.flot.stack.js"></script>
+    <script src="~/Scripts/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/theme.js"></script>
+    <script src="~/Scripts/Util/summary.js"></script>
+    <script type="text/javascript">
+            function goYahoo() {
+                var symbol = $("#input_find").val();
+                location.href = "https://finance.yahoo.com/quote/" + symbol;
+            }
+    </script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
@@ -143,22 +159,5 @@
     </div>
 
 
-    <!-- scripts -->
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <!-- knob -->
-    <script src="~/Scripts/jquery.knob.js"></script>
-    <!-- flot charts -->
-    <script src="~/Scripts/jquery.flot.js"></script>
-    <script src="~/Scripts/jquery.flot.stack.js"></script>
-    <script src="~/Scripts/jquery.flot.resize.js"></script>
-    <script src="~/Scripts/theme.js"></script>
-    <script src="~/Scripts/Util/summary.js"></script>
-    <script  type="text/javascript">
-        function goYahoo() {
-            var symbol = $("#input_find").val();
-            location.href = "https://finance.yahoo.com/quote/" + symbol;
-        }
-    </script>
+
 </body>

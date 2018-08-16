@@ -11,65 +11,44 @@
  * judge if sign in 
  */
 
-
+var inputSymbol;
+var symbolsList;
 $(function () {
-    var symbols = readSymbols();
-    symbols = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Chai",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"
-    ];
+    readSummary('a');
+    readSymbols();
     $("#input_find").autocomplete({
         source: function (request, response) {
-            var results = $.ui.autocomplete.filter(symbols, request.term);
+            console.log(symbolsList);
+            var results = $.ui.autocomplete.filter(symbolsList, request.term);
             response(results.slice(0, 10));
             //console.log(results);
         },
     });
 
     $("input[name='apply']").click(function () {
-        var inputSymbol = $("#input_find").val();
-        console.log(inputSymbol);
+        inputSymbol = $("#input_find").val();
+        if ($.inArray(inputSymbol, symbolsList)==-1) {
+            alert('iligal symbol');
+            return;
+        }
+        //console.log(inputSymbol);
         readSummary(inputSymbol);//call API
 
     });
 
     function refreshTable(summary) {
         console.log('here');
-        document.getElementById("symbolName").innerText = summary.symbol==null?'null':summary.symbol;
+        document.getElementById("symbolName").innerText = summary.symbol == null ? 'null' : summary.symbol;
         document.getElementById("close").innerText = summary.close;
         document.getElementById("open").innerText = summary.open;
         document.getElementById("high").innerText = summary.high;
         document.getElementById("low").innerText = summary.low;
         document.getElementById("earnings").innerText = summary.earnings;
         document.getElementById("dividents").innerText = summary.dividends;
-        location.href = "/home/detail?baseSymbol=" + inputSymbol;
+
     }
     $("input[name='Compare']").click(function () {
-        var inputSymbol = $("#input_find").val();
-        console.log(inputSymbol);
-        readSummary(inputSymbol);//call API
-
+        location.href = "/home/detail_?baseSymbol=" + inputSymbol;
     });
 
     function readSummary(symbol) {
@@ -84,6 +63,7 @@ $(function () {
                     alert('readDataError');
                 } else {
                     //get data from result.data
+                    inputSymbol = result.data.symbol;
                     refreshTable(result.data);
                 }
             },
@@ -107,8 +87,7 @@ $(function () {
                 } else {
                     if (result.data) {
                         //save successfully
-                        console.log(result.data);
-                        return result.data;
+                        symbolsList = result.data;
                         //
                     } else {
                         //fail to save
@@ -128,6 +107,6 @@ $(function () {
      * then use the baseSymbol call below function will work well
      */
     function goDetail(baseSymbol) {
-        location.href = '/home/_detail?baseSymbol=' + baseSymbol;
+        location.href = '/home/detail_?baseSymbol=' + baseSymbol;
     }
 });

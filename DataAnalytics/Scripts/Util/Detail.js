@@ -26,32 +26,35 @@ $(document).ready(function () {
     readSymbols();
 
     //load portfolio's symbol
-    for (var i = 0; i < portfolio.symbols.length; i++) {
+   /* for (var i = 0; i < portfolio.symbols.length; i++) {
         readSummary(portfolio.symbols[i]);
-    }
+    }*/
     initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
 });
-function refreshDataTable() {
+function refreshDataTable(basesymbolData) {
     $('#symbols_table').DataTable({
         columns: [
             {
-            data: 'symbol',
-            title: 'Symbol Name'
+                title:'Name'
+            }, {
+                title:'Date'
+            },
+            {
+                title:'Time'
+            },
+            {
+            title: 'Open'
         }, {
-            data: 'open',
-            title: 'Open Price'
+            title: 'High'
         }, {
-            data: 'close',
-            title: 'Close Price'
+            title: 'Low'
         }, {
-            data: 'high',
-            title: 'High Price'
+            title: 'Close'
         }, {
-            data: 'low',
-            title: 'Low Price'
+            title: 'Volume'
         }
         ],
-        data: summaryList
+        data: basesymbolData
     });
 }
 function readSummary(symbol) {
@@ -170,7 +173,9 @@ function readPortfolioDetail(_from, _to, _split, _symbols, callback) {
             console.log('this is get portfolio result')
             console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which is a object
             for (var i in result.data) {
-                initdata.push(result.data[i])
+                var ary2 = JSON.parse(JSON.stringify(result.data[i]));
+                initdata.push(ary2)
+                //initdata.push(result.data[i]);
             }
             callback(result.data);
             if (result.errmsg != null) {
@@ -290,7 +295,7 @@ $('#dateRangeStart').daterangepicker({
     }
 },
     function (start, end, label) {
-        beginTimeTake = start;
+        beginTimeTake = this.startDate;
         if (!this.startDate) {
             this.element.val('');
         } else {
@@ -303,9 +308,12 @@ $('#dateRangeStart').daterangepicker({
                     return;
                 }
                 /* readPortfolioDetail(beginTimeTake, endTimeTake, "d", symbol);*/
-                portfolio.from = MonentObjectFormart(beginTimeTake);
-                portfolio.to = MonentObjectFormart(endTimeTake);
+
+                portfolio.from = MonentObjectFormart(this.startDate.format(this.locale.format));
+                portfolio.to = MonentObjectFormart(this.endDate.format(this.locale.format));
                 //echart function here
+
+                initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
             }
         }
     });
@@ -323,7 +331,7 @@ $('#dateRangeEnd').daterangepicker({
     }
 },
     function (start, end, label) {
-        endTimeTake = end;
+        endTimeTake = this.endDate;
         if (!this.endDate) {
             this.element.val('');
             alert("Please input a end date!");
@@ -341,14 +349,17 @@ $('#dateRangeEnd').daterangepicker({
                     return;
                 }
                 //TODO 
-                portfolio.from = MonentObjectFormart(beginTimeTake);
-                portfolio.to = MonentObjectFormart(endTimeTake);
+                portfolio.from = MonentObjectFormart(beginTimeTake.format(this.locale.format));
+                portfolio.to = MonentObjectFormart(endTimeTake.format(this.locale.format));
                 //echart function here
+
+                initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
             }
         }
     });
 
 $('#singleDate').daterangepicker({
+
     singleDatePicker: true,
     showDropdowns: true,
     autoUpdateInput: false,
@@ -360,9 +371,10 @@ $('#singleDate').daterangepicker({
         cancelLabel: "取消",
         resetLabel: "重置",
     }
+
 },
 function (start, end, label) {
-        singleTimeTake = end;
+    singleTimeTake = this.endDate;
         if (!this.endDate) {
             this.element.val('');
         } else {
@@ -374,24 +386,21 @@ function (start, end, label) {
 
             this.element.val(this.endDate.format(this.locale.format));
             //TODO 
-            portfolio.from = MonentObjectFormart(singleTimeTake);
+            var date = this.endDate.format(this.locale.format);
+            
+            portfolio.from = MonentObjectFormart(date);
+
+            initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
             //echart function here
         }
 });
-function MonentObjectFormart(m) {
-    var str = "";
-    if (!m) {
-        return null;
-    }
-    for (var i = 0; i < 3; i++) {
-        var mi = m._i[i].toString();
-        if(mi.length==1){
-            str=str+'0'+m._i[i];
-        }else{
-            str+=m._i[i];
-        }
-    }
-    return str;
+function MonentObjectFormart(date) {
+    var s = "";
+    s = date.substring(0, 4);
+    s += date.substring(5, 7);
+    s += date.substring(8, 10);
+    return s;
+
 }
 
 //echarts
@@ -442,154 +451,6 @@ var inimodel3 = {
     yAxisIndex: 1,
     data: []
 };
-var option = {
-    backgroundColor: '#eee',
-    animation: false,
-    legend: {
-        bottom: 10,
-        left: 'center',
-        data: ['baseindex']
-    },
-    axisPointer: {
-        link: { xAxisIndex: 'all' },
-        label: {
-            backgroundColor: '#777'
-        }
-    },
-    toolbox: {
-        feature: {
-            dataZoom: {
-                yAxisIndex: false
-            },
-            brush: {
-                type: ['lineX', 'clear']
-            }
-        }
-    },
-    brush: {
-        xAxisIndex: 'all',
-        brushLink: 'all',
-        outOfBrush: {
-            colorAlpha: 0.1
-        }
-    },
-    grid: [
-        {
-            left: '10%',
-            right: '8%',
-            height: '50%'
-        },
-        {
-            left: '10%',
-            right: '8%',
-            bottom: '20%',
-            height: '15%'
-        }
-    ],
-    xAxis: [
-        {
-            type: 'category',
-            data: [],
-            scale: true,
-            boundaryGap: false,
-            axisLine: { onZero: false },
-            splitLine: { show: false },
-            splitNumber: 20,
-            min: 'dataMin',
-            max: 'dataMax',
-            axisPointer: {
-                z: 100
-            }
-        },
-        {
-            type: 'category',
-            gridIndex: 1,
-            data: [],
-            scale: true,
-            boundaryGap: false,
-            axisLine: { onZero: false },
-            axisTick: { show: false },
-            splitLine: { show: false },
-            axisLabel: { show: false },
-            splitNumber: 20,
-            min: 'dataMin',
-            max: 'dataMax',
-            axisPointer: {
-                label: {
-                    formatter: function (params) {
-                        var seriesValue = (params.seriesData[0] || {}).value;
-                        return params.value
-                            + (seriesValue != null
-                                ? '\n' + echarts.format.addCommas(seriesValue)
-                                : ''
-                            );
-                    }
-                }
-            }
-        }
-    ],
-    yAxis: [
-        {
-            scale: true,
-            splitArea: {
-                show: true
-            }
-        },
-        {
-            scale: true,
-            gridIndex: 1,
-            splitNumber: 2,
-            axisLabel: { show: false },
-            axisLine: { show: false },
-            axisTick: { show: false },
-            splitLine: { show: false }
-        }
-    ],
-    dataZoom: [
-        {
-            type: 'inside',
-            xAxisIndex: [0, 1],
-            start: 80,
-            end: 100
-        },
-        {
-            show: true,
-            xAxisIndex: [0, 1],
-            type: 'slider',
-            top: '85%',
-            start: 98,
-            end: 100
-        }
-        //,
-        //{
-        //    yAxisIndex: [0, 1],
-        //    start: 98,
-        //    end: 100
-        //}
-    ],
-    series: [],
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-        },
-        backgroundColor: 'rgba(245, 245, 245, 0.8)',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        textStyle: {
-            color: '#000'
-        },
-        position: function (pos, params, el, elRect, size) {
-            var obj = { top: 10 };
-            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-            return obj;
-        },
-        extraCssText: 'width: 170px'
-    },
-}
-myChart1.setOption(option)
-
 
 function splitData(rawData) {
     var categoryData = [];
@@ -619,6 +480,7 @@ function updateEchartBase(data) {
     if (!myChart1) {
         return;
     }
+    clearOption();
     var data1 = splitData(data[0]);
     var option = myChart1.getOption();
     inimodel1.data = data1.values;
@@ -641,11 +503,14 @@ function addEchartSymbol(data) {
         if (i == 0) {
             continue;
         }
+        if (data[i].length==0) {
+            continue;
+        }
         datao.push(splitData(data[i]));
     }
     var fname = false;
     for (var i in datao) {
-        var factor = parseFloat(initdata[0][initdata[0].length - 1][1]) / parseFloat(datao[i].close[datao[i].close.length - 1]);
+        var factor = parseFloat(initdata[0][initdata[0].length - 1][4]) / parseFloat(datao[i].close[datao[i].close.length - 1]);
         var othername = datao[i].symbolname[0] + '*' + factor.toFixed(2);
         for (var ii in datao[i].close) {
             datao[i].close[ii] = (parseFloat(datao[i].close[ii]) * parseFloat(factor)).toFixed(2);
@@ -668,7 +533,7 @@ function addEchartSymbol_2(data) {
     var option = myChart1.getOption();
     var fname = false;
     for (var i in data) {
-        var factor = parseFloat(initdata[0][initdata[0].length - 1][1]) / parseFloat(datao.close[datao.close.length-1]);
+        var factor = parseFloat(initdata[0][initdata[0].length - 1][4]) / parseFloat(datao.close[datao.close.length-1]);
         var othername = datao.symbolname[0] + '*' + factor.toFixed(2);
         for (var ii in datao.close) {
             datao.close[ii] = (parseFloat(datao.close[ii]) * parseFloat(factor)).toFixed(2);
@@ -683,11 +548,177 @@ function addEchartSymbol_2(data) {
     myChart1.setOption(option);
 }
 
+function clearOption() {
+    myChart1.clear();
+    var option = {
+        backgroundColor: '#eee',
+        animation: false,
+        legend: {
+            bottom: 10,
+            left: 'center',
+            data: ['baseindex']
+        },
+        axisPointer: {
+            link: { xAxisIndex: 'all' },
+            label: {
+                backgroundColor: '#777'
+            }
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: false
+                },
+                brush: {
+                    type: ['lineX', 'clear']
+                }
+            }
+        },
+        brush: {
+            xAxisIndex: 'all',
+            brushLink: 'all',
+            outOfBrush: {
+                colorAlpha: 0.1
+            }
+        },
+        grid: [
+            {
+                left: '10%',
+                right: '8%',
+                height: '50%'
+            },
+            {
+                left: '10%',
+                right: '8%',
+                bottom: '20%',
+                height: '15%'
+            }
+        ],
+        xAxis: [
+            {
+                type: 'category',
+                data: [],
+                scale: true,
+                boundaryGap: false,
+                axisLine: { onZero: false },
+                splitLine: { show: false },
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax',
+                axisPointer: {
+                    z: 100
+                }
+            },
+            {
+                type: 'category',
+                gridIndex: 1,
+                data: [],
+                scale: true,
+                boundaryGap: false,
+                axisLine: { onZero: false },
+                axisTick: { show: false },
+                splitLine: { show: false },
+                axisLabel: { show: false },
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax',
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            var seriesValue = (params.seriesData[0] || {}).value;
+                            return params.value
+                                + (seriesValue != null
+                                    ? '\n' + echarts.format.addCommas(seriesValue)
+                                    : ''
+                                );
+                        }
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                scale: true,
+                splitArea: {
+                    show: true
+                }
+            },
+            {
+                scale: true,
+                gridIndex: 1,
+                splitNumber: 2,
+                axisLabel: { show: false },
+                axisLine: { show: false },
+                axisTick: { show: false },
+                splitLine: { show: false }
+            }
+        ],
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: [0, 1],
+                start: 80,
+                end: 100
+            },
+            {
+                show: true,
+                xAxisIndex: [0, 1],
+                type: 'slider',
+                top: '85%',
+                start: 98,
+                end: 100
+            }
+            //,
+            //{
+            //    yAxisIndex: [0, 1],
+            //    start: 98,
+            //    end: 100
+            //}
+        ],
+        series: [],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            },
+            backgroundColor: 'rgba(245, 245, 245, 0.8)',
+            borderWidth: 1,
+            borderColor: '#ccc',
+            padding: 10,
+            textStyle: {
+                color: '#000'
+            },
+            position: function (pos, params, el, elRect, size) {
+                var obj = { top: 10 };
+                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                return obj;
+            },
+            extraCssText: 'width: 170px'
+        },
+    }
+    myChart1.setOption(option);
+    console.log(myChart1.getOption().series);
+}
+var firstComePage = true;
 function initData(_from, _to, _split, _symbols) {
+    symbolList = [];
+    portfolio = window.currentPortfolio;
+    tempSymbol = [];
+    summaryList = [];
+    initdata = [];
+    if (firstComePage) {
+        firstComePage = false;
+    } else {
+        $('#symbols_table').dataTable().fnClearTable();
+        $('#symbols_table').dataTable().fnDestroy();
+    }
+    clearOption();
     readPortfolioDetail(_from, _to, _split, _symbols, function (data) {
         updateEchartBase(data);
-
         addEchartSymbol(data);
+        //data table
+        refreshDataTable(initdata[0]);
+
     });
 }
 

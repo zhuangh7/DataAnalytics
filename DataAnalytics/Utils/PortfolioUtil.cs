@@ -26,7 +26,7 @@ namespace DataAnalytics.Utils
 
             foreach (string symbol in portfolio.symbols)
             {
-                var cmd_1 = new SqlCommand("save_Portfolio_Items", conn);
+                var cmd_1 = new SqlCommand("save_PortfolioItems", conn);
                 cmd_1.CommandType = CommandType.StoredProcedure;
                 cmd_1.Parameters.AddWithValue("@PortID", result);
                 cmd_1.Parameters.AddWithValue("@symbol", symbol);
@@ -155,7 +155,7 @@ namespace DataAnalytics.Utils
                 portfolio.portfolioID = int.Parse(resultReader.GetValue(0).ToString());
                 portfolio.portfolioname = resultReader.GetValue(2).ToString();
                 portfolio.from = resultReader.GetValue(3).ToString().Replace("-","");
-                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" : resultReader.GetValue(4).ToString();
+                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" : resultReader.GetValue(4).ToString().Replace("-","");
                 portfolio.split = resultReader.GetValue(5).ToString();
 
                 var cmd_getSymbols = new SqlCommand("get_Portfolio_Items", conn);
@@ -202,7 +202,7 @@ namespace DataAnalytics.Utils
                 portfolio.portfolioID = int.Parse(resultReader.GetValue(0).ToString());
                 portfolio.portfolioname = resultReader.GetValue(2).ToString();
                 portfolio.from = resultReader.GetValue(3).ToString().Replace("-","");
-                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" :resultReader.GetValue(4).ToString();
+                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" :resultReader.GetValue(4).ToString().Replace("-","");
                 portfolio.split = resultReader.GetValue(5).ToString();
 
                 var cmd_getSymbols = new SqlCommand("get_Portfolio_Items", conn);

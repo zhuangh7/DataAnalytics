@@ -34,7 +34,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>  
+    <script src="~/Scripts/jquery-latest.js"></script>  
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
 
@@ -154,7 +154,7 @@
                 <div class="row-fluid header">
                     <div class="span8">
                         <img src="~/Content/img/contact-profile.png" class="avatar img-circle" />
-                        <h3 class="name" id="username">@ViewBag.username</h3>
+                        <h3 class="name" id="username">@ViewBag.portfolio.symbols[0]</h3>
                     </div>
                 </div>
 
@@ -194,6 +194,7 @@
 
 
                             <!-- recent orders table -->
+                            <div style="width:100%;text-align:center;margin-top:23px;margin-bottom:10px"><h1>@ViewBag.portfolio.symbols[0] 's detail data</h1></div>
                             <table id="symbols_table" sytle="width:100%;"></table>
                             <!-- echart -->
                             <div id="container" style="height: 400px;width:100%;"></div>
