@@ -30,7 +30,7 @@ $(document).ready(function () {
     }
     console.log('fk portfolio');
     console.log(portfolio);
-    initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbol);
+    initData(portfolio.from, portfolio.to, portfolio.split, portfolio.symbols);
 });
 function refreshDataTable() {
     $('#symbols_table').DataTable({
