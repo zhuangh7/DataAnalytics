@@ -154,8 +154,8 @@ namespace DataAnalytics.Utils
             {
                 portfolio.portfolioID = int.Parse(resultReader.GetValue(0).ToString());
                 portfolio.portfolioname = resultReader.GetValue(2).ToString();
-                portfolio.from = resultReader.GetValue(3).ToString();
-                portfolio.to = resultReader.GetValue(4).ToString();
+                portfolio.from = resultReader.GetValue(3).ToString().Replace("-","");
+                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" : resultReader.GetValue(4).ToString();
                 portfolio.split = resultReader.GetValue(5).ToString();
 
                 var cmd_getSymbols = new SqlCommand("get_Portfolio_Items", conn);
@@ -201,8 +201,8 @@ namespace DataAnalytics.Utils
                 var portfolio = new portfolio();
                 portfolio.portfolioID = int.Parse(resultReader.GetValue(0).ToString());
                 portfolio.portfolioname = resultReader.GetValue(2).ToString();
-                portfolio.from = resultReader.GetValue(3).ToString();
-                portfolio.to = resultReader.GetValue(4).ToString();
+                portfolio.from = resultReader.GetValue(3).ToString().Replace("-","");
+                portfolio.to = (resultReader.GetValue(4).ToString().Equals("1900-01-01")) ? "" :resultReader.GetValue(4).ToString();
                 portfolio.split = resultReader.GetValue(5).ToString();
 
                 var cmd_getSymbols = new SqlCommand("get_Portfolio_Items", conn);

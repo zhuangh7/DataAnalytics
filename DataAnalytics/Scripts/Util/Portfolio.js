@@ -25,7 +25,7 @@ function refreshDataTable() {
         
         columns: [{
             data: 'portfolioLink',
-            title: 'portfolioName',
+            title: 'portfolioname',
         }, {
             data: 'from',
             title: 'from',
@@ -45,13 +45,15 @@ function askAllPortfolioObjects() {
         dataType: "json",
         contentType: "application/json",
         success: function (result) {
+            console.log("this is result");
             console.log(result); //this result will be a signle json object which contain '''errmsg''' or '''data''' which contain a list of portfolio objects
             if (result.errmsg != null) {
                 alert('readDataError');
             } else {
                 //put the data into datatable or store it in an global var I think.
                 //show
-                for (d in result.data) {
+                for (i in result.data) {
+                    d = result.data[i];
                     portfolioList.push({
                         portfolioname:d.portfolioname,
                         from: d.from,
