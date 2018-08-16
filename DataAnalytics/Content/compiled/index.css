@@ -160,14 +160,14 @@
 
 
         .summary td {
-            font-size: 20px;
+            font-size: 25px;
             font-family:sans-serif;
             font-weight:100;
         }
 .summary label {
     font-family: sans-serif;
     display: inline;
-    font-size: 25px;
+    font-size: 20px;
 }
 .summary table {
     box-shadow: 10px 10px 5px #888888;
